@@ -1,3 +1,15 @@
-<h1>
-  {{title}}
-</h1>
+<div class="wrapper">
+  <app-header></app-header>
+  <section class="bg-color-custom">
+		<div class="content-side-right">
+      <!-- Interactive Slider -->
+			<div class="interactive-slider-v1 img-v3" style="background: url(./assets/img/bg/18.jpg) no-repeat;background-size: cover; background-position: center center;">
+			    <div class="container">
+              <h2>{{title}}</h2>
+			        <p>Home</p>
+			    </div>
+			</div>
+      <router-outlet></router-outlet>
+		</div>
+  </section>  
+</div>

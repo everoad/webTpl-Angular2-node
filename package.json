@@ -1,10 +1,11 @@
 {
   "name": "my-board",
   "version": "0.0.0",
+  "main": "./server/bin/www.js",
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
-    "start": "ng serve",
+    "start": "ng serve --proxy-config proxy.conf.json",
     "lint": "tslint \"src/**/*.ts\"",
     "test": "ng test",
     "pree2e": "webdriver-manager update",
@@ -20,8 +21,14 @@
     "@angular/platform-browser": "2.2.1",
     "@angular/platform-browser-dynamic": "2.2.1",
     "@angular/router": "3.2.1",
+    "body-parser": "^1.15.2",
     "core-js": "^2.4.1",
+    "ejs": "^2.5.5",
+    "express": "^4.14.0",
+    "node-mysql": "^0.4.2",
+    "promise-mysql": "^3.0.0",
     "rxjs": "5.0.0-beta.12",
+    "sha256": "^0.2.0",
     "ts-helpers": "^1.1.1",
     "zone.js": "^0.6.23"
   },

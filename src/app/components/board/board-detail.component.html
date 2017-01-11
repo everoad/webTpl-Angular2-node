@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="content">
+    <div class="col-md-10">
+      <div class="sky-form">
+        <div class="testimonials-v6">
+          <div class="testimonials-info">
+            <div class="testimonials-desc">
+              <h3>{{board.title}}</h3>
+              <h5 align="left">
+                <i class="fa  fa-user"></i>{{board.user_nick}} &nbsp;&nbsp;
+                <i class="fa fa-eye"></i>{{board.hit_count}} &nbsp;&nbsp;
+                <i class="fa fa-comments"></i>{{board.reply_count}} &nbsp;&nbsp;
+                <i class="fa fa-clock-o"></i>{{board.reg_date}} &nbsp;&nbsp;
+                <span class="cstmspan">
+                  <a><i class="fa fa-pencil"></i>수정</a>
+                  <form action="" method="post">
+                    <input type="hidden" name="user_email" value="{{board.user_email}}" />
+                    <button class="btn btn-link"><i class="fa fa-trash"></i>&nbsp;삭제</button>
+                  </form>
+                </span>
+              </h5>
+            </div>
+          </div>
+          <div style="background-color:white; font-family:'Open Sans', Arial, sans-serif" class="detail" [innerHTML]="board.content"></div>
+          <div align="right" class="testimonials-info">
+            <h5><a [routerLink]="['/board', board.menu_fir_seq, board.menu_sec_seq]" routerLinkActive="active"><i class="icon-list"></i>목록</a></h5>
+          </div>
+        </div>
+        <div class="panel panel-profile">
+          <div class="panel-heading">
+            <h2 class="panel-title pull-left">
+              <i class="fa fa-comments"></i>댓글
+            </h2>
+          </div>
+          <div class="panel-body">
+               <!--<div>
+                <p>로그인 후 사용해 주세요.</p>
+                <a href="/template/user/login">Login</a>
+              </div>-->
+    
+            <label class="textarea">
+              <textarea rows="3" cols="" id="content"></textarea>
+            </label>
+            <div align="right">
+              <button id="addReplyBtn" class="btn-u">완료</button>
+            </div>
+          </div>
+          <div class="panel-body" id="comment">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+</div>

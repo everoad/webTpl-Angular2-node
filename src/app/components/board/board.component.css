@@ -1,0 +1,17 @@
+.box {
+  width:390px;
+  float:left;
+  padding:10px;
+}
+.gridbox {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.gridbox:hover {
+  box-shadow : 0 0 10px gray;
+}
+
+.disabled {
+  pointer-events: none;
+}

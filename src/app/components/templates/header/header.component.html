@@ -1,0 +1,53 @@
+<div class="header-v7 header-left-v7">
+  <nav class="navbar navbar-default mCustomScrollbar" role="navigation" data-mcs-theme="minimal-dark">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="menu-container">
+      <!-- Toggle get grouped for better mobile display -->
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+      </button>
+      <!-- End Toggle -->
+
+      <!-- Logo -->
+      <div class="logo">
+        <a routerLink="/" routerLinkActive="active">
+          <img id="logo-header" src="./assets/img/logo1-default.png" alt="Logo">
+        </a>
+      </div>
+      <!-- End Logo -->
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse navbar-responsive-collapse">
+      <div class="menu-container">
+        <ul class="nav navbar-nav">
+          <li>
+            <a routerLink="/" routerLinkActive="active">
+              Home
+            </a>
+          </li>
+          <li class="dropdown" *ngFor="let fir of menu">
+            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" routerLinkActive="active">{{fir.menu_fir_name}}</a>
+            <ul class="dropdown-menu">
+              <li *ngFor="let sec of fir.menu_sec">
+                <a [routerLink]="['board', sec.menu_fir_seq, sec.menu_sec_seq]" routerLinkActive="active">{{ sec.menu_sec_name }}</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="list-inline header-socials">
+          <a routerLink="user/login" class="btn btn-default btn-sm">Sign In</a>
+          <a routerLink="user/join" class="btn btn-success btn-sm">Sign Up</a>
+				</ul>
+        <p class="copyright-text">&copy; 2015 Unify. All Rights Reserved.</p>
+        <ul class="list-inline header-socials">
+          <li><a href="javascript:void(0);">문의하기</a></li>
+          <li><a href="javascript:void(0);">공지사항</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
