@@ -10,14 +10,14 @@ export class UserService {
     private http: Http
   ) {}
 
-  login(user: User): Promise<JSON> {
+  login(user: User) {
     var headers = new Headers()
     headers.append('Content-Type', 'application/json')
     return this.http.post('/api/user/login', JSON.stringify(user), { headers: headers }).toPromise()
       .then(res => res.json())
   }
 
-  join(user: User): Promise<JSON> {
+  join(user: User) {
     var headers = new Headers()
     headers.append('Content-Type', 'application/json')
     return this.http.post('/api/user/join', JSON.stringify(user), { headers: headers }).toPromise()

@@ -1,13 +1,13 @@
 <div class="container">
   <div class="content profile">
-    <!--Projects-->
+    <!--1482982294813_asdf.jpg-->
     <div class="row">
       <div class="box" *ngFor="let board of boards, let i = index">
         <div class="gridbox">
           <div class="easy-block-v1">
             <div style="overflow:hidden; width:100%;height:0px; padding-bottom:50%;">
               <a [routerLink]="[board.board_seq]" routerLinkActive="active">
-                <img class="img-responsive" src="api/img?img=1482982294813_asdf.jpg" alt="">
+                <img class="img-responsive" src="{{board.front_img}}" alt="">
               </a>
             </div>
           </div>    
@@ -22,7 +22,7 @@
               <ul class="list-inline comment-list-v2">
                   <li><i class="fa fa-eye"></i> <a href="#">{{board.hit_count}}</a></li>
                   <li><i class="fa fa-comments"></i> <a href="#">{{board.reply_count}}</a></li>
-              </ul>    
+              </ul>
           </div>
         </div>
       </div>

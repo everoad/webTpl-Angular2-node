@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core'
-
+import { Component, OnInit, ViewEncapsulation } from '@angular/core'
 import { ActivatedRoute, Params, Router } from '@angular/router'
-import { Board } from '../../board'
-import 'rxjs/add/operator/switchMap'
 
+import { Board } from '../../board'
 import { BoardService } from '../../services/board.service'
+
+import 'rxjs/add/operator/switchMap'
 
 @Component({
   moduleId: module.id + '',
   templateUrl: './board-detail.component.html',
-  styleUrls: ['./board-detail.component.css']
+  styleUrls: ['./board-detail.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class BoardDetailComponent implements OnInit {

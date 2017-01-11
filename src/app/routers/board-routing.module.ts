@@ -10,12 +10,12 @@ const routes: Routes = [
     component: BoardComponent
   },
   {
-    path: 'board/:menu_fir_seq/:menu_sec_seq/:board_seq',
-    component: BoardDetailComponent
-  },
-  {
     path: 'board/:menu_fir_seq/:menu_sec_seq/add',
     component: BoardAddComponent
+  },
+  {
+    path: 'board/:menu_fir_seq/:menu_sec_seq/:board_seq',
+    component: BoardDetailComponent
   }
 ]
 

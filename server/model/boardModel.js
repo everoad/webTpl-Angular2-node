@@ -69,6 +69,16 @@ pool.getConnection().then((connection) => {
           }).catch((err) => callback(null, err))
       })).catch((err) => callback(null, err))
   }
+
+  exports.add = (params, callback) => {
+    var sql =
+      'INSERT INTO board(title, content, reg_date, hit_count, reply_count, front_img, user_email, menu_fir_seq, menu_sec_seq) ' +
+      'VALUES (?, ?, now(), 0, 0, ?, ?, ?, ?)'
+
+    connection.query(sql, params)
+      .then((result) => callback(result.insertId))
+      .catch((err) => callback(null, err))
+  }
 }).catch((err) => {
   console.error('boardModel : ' + err.stack)
 })

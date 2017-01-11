@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router()
 var boardModel = require('../model/boardModel')
-
+var HTML = require('html-parse-stringify')
 router.route('/:menu_fir_seq/:menu_sec_seq')
 .get((req, res) => {
   var index = req.query.index
@@ -31,13 +31,36 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
   })
 })
 .post((req, res) => {
-  res.send('Hello Post!')
+  var firSeq = req.body.menu_fir_seq
+  var secSeq = req.body.menu_sec_seq
+  var title = req.body.title
+  var content = req.body.content
+  var userEmail = 'test'
+  var frontImg
+  for (let tag of HTML.parse(content)) {
+    if (tag.name === 'img') {
+      frontImg = tag.attrs.src
+      break
+    }
+  }
+  boardModel.add([title, content, frontImg, userEmail, firSeq, secSeq], (insertId, err) => {
+    if (err) {
+      console.error(err.stack)
+    }
+    if (insertId === null) {
+      res.send({ result: 'fail' })
+    } else {
+      res.send({
+        board_seq: insertId
+      })
+    }
+  })
 })
 .put((req, res) => {
 
 })
 .delete((req, res) => {
-
+  var boardSeq = req.body.board_seq
 })
 
 router.get('/:menu_fir_seq/:menu_sec_seq/:board_seq', (req, res) => {

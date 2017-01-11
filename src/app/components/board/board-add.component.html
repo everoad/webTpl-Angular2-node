@@ -1,1 +1,18 @@
-<h1>Add</h1>
+<div class="container">
+  <div class="text-content">
+    <div class="content col-md-10">
+      <form class="sky-form">
+        <input name="title" [(ngModel)]="board.title" placeholder="Title.." class="form-control">
+        <input type="file" (change)="upload($event)" name="file" value="" class="form-control">
+        <!--<textarea [(ngModel)]="board.content" rows="" cols="" id="content" name="content"></textarea>-->
+        <div contentEditable="true" id="content"></div>
+        <!-- <textarea name='content' style='width:620;height:300' class='form'></textarea> -->
+        <div align="right">
+          <button id="back" class="btn-u btn-u-default btn-u-sm" id="back">취소</button>
+          <input type='button' (click)="submit($event)" value="완료" class="btn-u btn-u-sm">
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-2"></div>
+</div>

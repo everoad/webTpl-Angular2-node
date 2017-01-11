@@ -4,9 +4,14 @@ import { FormsModule } from '@angular/forms'
 import { HttpModule } from '@angular/http'
 import { AppRoutingModule } from './app-routing.module'
 
+import { LocationStrategy,
+         HashLocationStrategy } from '@angular/common';
+
 import { BoardService } from './services/board.service'
 import { IndexService } from './services/index.service'
 import { UserService }  from './services/user.service'
+
+import { SafeHtmlPipe } from './pipes/safehtml.pipe'
 
 import { AppComponent } from './app.component'
 import { MainComponent } from './components/main.component'
@@ -28,7 +33,8 @@ import { HeaderComponent } from './components/templates/header/header.component'
     BoardDetailComponent,
     LoginComponent,
     JoinComponent,
-    HeaderComponent
+    HeaderComponent,
+    SafeHtmlPipe
   ],
   imports: [
     BrowserModule,
@@ -36,7 +42,12 @@ import { HeaderComponent } from './components/templates/header/header.component'
     HttpModule,
     AppRoutingModule
   ],
-  providers: [IndexService, BoardService, UserService],
+  providers: [
+    IndexService,
+    BoardService, 
+    UserService,
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

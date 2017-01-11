@@ -3,10 +3,9 @@
   padding: 40px;
   border : 1px solid white;
   overflow: hidden;
+  background-color:white;
+  font-family: 'Open Sans', Arial, sans-serif
 }
-
-
-
 .panel {
   padding: 40px;
 }
@@ -22,15 +21,18 @@
   margin-top: 0px !important;
   margin-bottom: 0px !important;
 }
+
 @media (max-width: 1441px) {
   .detail img {
     width: 100%;
   }
 } 
 
+
+
 @media all and (min-width: 1441px) {
   .detail img {
-    max-width: 100%;
+    max-width: 100% !important;
   }
 }
 
