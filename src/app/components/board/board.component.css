@@ -15,3 +15,34 @@
 .disabled {
   pointer-events: none;
 }
+
+.collapse { 
+  margin-bottom: 10px;
+}
+
+.nav-left i {
+  font-size: 25px;
+  color: #aaa;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  line-height: 30px;
+}
+
+.navbar-right i {
+  font-size: 25px;
+  color: #aaa;
+}
+.navbar-nav i:hover {
+  color: #5fb611;
+}
+
+.searchbox { 
+  width :370px;
+}
+
+.middle-nav {
+  height: 20px;
+  position: relative;
+  width: 100%;
+  margin-top: 10px;
+}

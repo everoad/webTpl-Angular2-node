@@ -4,6 +4,13 @@ var sha256 = require('sha256')
 
 var userModel = require('../model/userModel')
 
+
+
+/**
+ * Login User & Return results.
+ * @param {string} user_email
+ * @param {string} user_pwd
+ */
 router.post('/login', (req, res) => {
   var userEmail = req.body.user_email
   var userPwd = req.body.user_pwd
@@ -21,6 +28,14 @@ router.post('/login', (req, res) => {
   })
 })
 
+
+
+/**
+ * Join User & Returns results.
+ * @param {string} user_email
+ * @param {string} user_nick
+ * @param {string} user_pwd
+ */
 router.post('/join', (req, res) => {
   var userEmail = req.body.user_email
   var userNick = req.body.user_nick

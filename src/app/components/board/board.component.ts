@@ -4,17 +4,21 @@ import { BoardService } from '../../services/board.service'
 import { Board } from '../../board'
 import 'rxjs/add/operator/switchMap'
 
+
 @Component({
   moduleId: module.id + '',
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.css']
 })
 
+
 export class BoardComponent implements OnInit {
 
   boards: Board[] = []
   indexArr: number[] = []
   
+  skey: string = ''
+  stype: string = ''
   totalDataNum: number
   dataPerPage: number
   totalPage: number
@@ -24,6 +28,14 @@ export class BoardComponent implements OnInit {
   menu_fir_seq: string
   menu_sec_seq: string
 
+
+  
+  /**
+   * Create a BoardComponent.
+   * @param  {BoardService} privateboardService
+   * @param  {ActivatedRoute} privateroute
+   * @param  {Router} privaterouter
+   */
   constructor(
     private boardService: BoardService,
     private route: ActivatedRoute,
@@ -34,15 +46,29 @@ export class BoardComponent implements OnInit {
     this.pagination(1)
   }
 
-  pagination(index): void {
+  haha(index) {
+    console.log(index)
+  }
+
+
+  
+  /**
+   * Pagination.
+   * @param  {number} index
+   * @returns void
+   */
+  pagination(index: number): void {
     this.index = index
     this.route.params.switchMap((p: Params) => {
       this.menu_fir_seq = p['menu_fir_seq']
       this.menu_sec_seq = p['menu_sec_seq']
       return this.boardService.getList({
-        "index": this.index,
-        "menu_fir_seq": this.menu_fir_seq,
-        "menu_sec_seq": this.menu_sec_seq
+        menu_fir_seq: this.menu_fir_seq,
+        menu_sec_seq: this.menu_sec_seq
+      }, {
+        index: index,
+        stype: this.stype,
+        skey: this.skey
       })
     }).subscribe(json => {
       this.boards = json['boards']
@@ -63,4 +89,5 @@ export class BoardComponent implements OnInit {
       }
     })
   }
+
 }

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { IndexService } from '../services/index.service' 
+
+
 @Component({
   moduleId: module.id + '',
   templateUrl: './main.component.html',
@@ -8,6 +10,8 @@ import { IndexService } from '../services/index.service'
     `.menu { background: white; border: 1px solid #ddd; margin-top: 20px; margin-bottom: 10px; padding: 40px; }`
   ]
 })
+
+
 
 export class MainComponent implements OnInit {
 
@@ -19,7 +23,7 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
     this.indexService.getMainList()
-      .then(json => {this.boards = json; console.log(this.boards)})
+      .then(json => {this.boards = json; })
   }
 
 }

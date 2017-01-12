@@ -15,8 +15,15 @@ import 'rxjs/add/operator/switchMap'
 
 export class BoardDetailComponent implements OnInit {
   
-  board: Board = new Board()
+  board: Board
 
+
+
+  /**
+   * @param  {BoardService} privateboardService
+   * @param  {ActivatedRoute} privateroute
+   * @param  {Router} privaterouter
+   */
   constructor(
     private boardService: BoardService,
     private route: ActivatedRoute,
@@ -24,6 +31,7 @@ export class BoardDetailComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.board = new Board()
     this.route.params.switchMap((p: Params) => 
       this.boardService.getDetail({
         "board_seq": p['board_seq'],

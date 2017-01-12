@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ViewEncapsulation } from '@angular/core'
 import { BoardService } from '../../services/board.service'
 import { IndexService } from '../../services/index.service'
 import { Board } from '../../board'
@@ -9,14 +9,22 @@ import 'rxjs/add/operator/switchMap'
 @Component({
   moduleId: module.id + '',
   templateUrl: './board-add.component.html',
-  styleUrls: ['./board-add.component.css']
+  styleUrls: ['./board-add.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class BoardAddComponent implements OnInit {
   
-  board: Board = new Board()
+  board: Board
   content: HTMLElement
 
+
+  /**
+   * @param  {BoardService} privateboardService
+   * @param  {IndexService} privateindexService
+   * @param  {ActivatedRoute} privateroute
+   * @param  {Router} privaterouter
+   */
   constructor(
     private boardService: BoardService,
     private indexService: IndexService,
@@ -24,11 +32,21 @@ export class BoardAddComponent implements OnInit {
     private router: Router
   ) { }
 
+
+
   ngOnInit() {
+    this.board = new Board()
     this.content = document.getElementById('content')
   }
 
-  submit($event) {
+
+
+ 
+  /**
+   * Submit content.
+   * @param {MouseEvent} event
+   */
+  submit(even: MouseEvent) {
     this.board.content = this.content.innerHTML
     this.route.params.switchMap((p: Params) => {
       this.board.menu_fir_seq = p['menu_fir_seq']
@@ -37,8 +55,19 @@ export class BoardAddComponent implements OnInit {
      }).subscribe(json => console.log(json))
   }
 
+
+
+  /**
+   * Upload a image.
+   * @param {Event} event
+   */
   upload(event) {
-    this.indexService.uploadImg(event.target.files[0])
+    var file: File = event.target.files[0]
+    if (file['type'] !== 'image/jpeg') {
+      alert('이미지 파일이 아닙니다.')
+      return
+    }
+    this.indexService.uploadImg(file)
       .then(json => {
         let elem = document.createElement('img')
         elem.setAttribute('src', 'api/img?img=' + json.uploadFileName)

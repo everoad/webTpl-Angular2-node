@@ -1,4 +1,27 @@
 <div class="container">
+  <div class="middle-nav">
+    <!-- 공통기능 : 검색과 쓰기 -->
+    <ul class="nav navbar-nav navbar-left">
+      <li>
+        <div>
+          <ul class="pull-left breadcrumb">
+          
+              <li class="">
+                <a href=''></a>
+              </li>
+
+          </ul>
+        </div>
+      </li>
+    </ul>
+
+    <ul class="nav navbar-nav navbar-right">
+      <li>
+        <a [routerLink]="['add']"><i class="icon-note"></i></a>
+      </li>
+    </ul>
+  </div>
+
   <div class="content profile">
     <!--1482982294813_asdf.jpg-->
     <div class="row">
@@ -10,19 +33,19 @@
                 <img class="img-responsive" src="{{board.front_img}}" alt="">
               </a>
             </div>
-          </div>    
+          </div>
           <div class="projects">
-              <h2><a class="color-dark" [routerLink]="[board.board_seq]" routerLinkActive="active">{{board.title}}</a></h2>
-              <ul class="list-unstyled list-inline blog-info-v2">
-                  <li>By: <a class="color-green" href="#">{{board.user_nick}}</a></li>
-                  <li><i class="fa fa-clock-o"></i>{{board.reg_date}}</li>
-              </ul>
+            <h2><a class="color-dark" [routerLink]="[board.board_seq]" routerLinkActive="active">{{board.title}}</a></h2>
+            <ul class="list-unstyled list-inline blog-info-v2">
+              <li>By: <a class="color-green" href="#">{{board.user_nick}}</a></li>
+              <li><i class="fa fa-clock-o"></i>{{board.reg_date}}</li>
+            </ul>
           </div>
           <div class="project-share">
-              <ul class="list-inline comment-list-v2">
-                  <li><i class="fa fa-eye"></i> <a href="#">{{board.hit_count}}</a></li>
-                  <li><i class="fa fa-comments"></i> <a href="#">{{board.reply_count}}</a></li>
-              </ul>
+            <ul class="list-inline comment-list-v2">
+              <li><i class="fa fa-eye"></i> <a href="#">{{board.hit_count}}</a></li>
+              <li><i class="fa fa-comments"></i> <a href="#">{{board.reply_count}}</a></li>
+            </ul>
           </div>
         </div>
       </div>
@@ -31,21 +54,32 @@
   <div class="text-center">
     <ul class="pagination">
       <li>
-        <a [routerLink]="['board', menu_fir_seq, menu_sec_seq]"
-           routerLinkActive="active"
-           (click)="pagination(previous)"
-           class="{{ (index === 1) ? 'disabled' : '' }}">&laquo;</a></li>
+        <a [routerLink]="" 
+           [queryParams]="{ index: previous }" 
+           (click)="pagination(previous)" 
+           routerLinkActive="active">&laquo;</a></li>
       <li *ngFor="let i of indexArr" class="{{ (index === i) ? 'active' : '' }}">
-        <a [routerLink]="['board', menu_fir_seq, menu_sec_seq]"
-           routerLinkActive="active" 
-           (click)="pagination(i)"
-           class="{{ (index === i) ? 'disabled' : '' }}">{{i}}</a>
+        <a [routerLink]="" 
+           [queryParams]="{ index: i, skey: skey }" 
+           (click)="pagination(i)" 
+           routerLinkActive="active">{{i}}</a>
       </li>
       <li>
-        <a [routerLink]="['board', menu_fir_seq, menu_sec_seq]" 
-           routerLinkActive="active" 
-           (click)="pagination(next)"
-           class="{{ (index === totalPage) ? 'disabled' : '' }}">&raquo;</a></li>
+        <a [routerLink]="" 
+           [queryParams]="{ index: next }"
+           (click)="pagination(next)" 
+           routerLinkActive="active">&raquo;</a></li>
     </ul>
-  </div> 
+    <form class="form form-inline">
+      <div class="searchbox" align="center">
+        <select name="stype" [(ngModel)]="stype" class="form-control">
+          <option value="title">Title</option>
+          <option value="content">Content</option>
+          <option value="user_nick">Author</option>
+        </select>
+        <input type="text" [(ngModel)]="skey" name="skey" class="form-control" value="" placeholder="Search">
+        <input type="button" value="검색" class="btn btn-u">
+      </div>
+    </form>
+  </div>
 </div>

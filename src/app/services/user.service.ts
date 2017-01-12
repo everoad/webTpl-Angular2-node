@@ -10,6 +10,11 @@ export class UserService {
     private http: Http
   ) {}
 
+
+
+  /**
+   * @param  {User} user
+   */
   login(user: User) {
     var headers = new Headers()
     headers.append('Content-Type', 'application/json')
@@ -17,6 +22,12 @@ export class UserService {
       .then(res => res.json())
   }
 
+
+
+
+  /**
+   * @param  {User} user
+   */
   join(user: User) {
     var headers = new Headers()
     headers.append('Content-Type', 'application/json')

@@ -4,10 +4,10 @@
   border: 1px solid gray;
   font: medium -moz-fixed;
   font: -webkit-small-control;
-  height: 400px;
+  height: 600px;
   overflow: auto;
-  padding: 2px;
-  resize: both;
+  padding: 10px;
+  resize: none;
   width: 100%;
   background: white;
 }

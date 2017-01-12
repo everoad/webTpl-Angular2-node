@@ -24,6 +24,7 @@ import { JoinComponent } from './components/user/join.component'
 
 import { HeaderComponent } from './components/templates/header/header.component'
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,4 +51,6 @@ import { HeaderComponent } from './components/templates/header/header.component'
   ],
   bootstrap: [AppComponent]
 })
+
+
 export class AppModule { }
