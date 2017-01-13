@@ -42,16 +42,12 @@ export class BoardComponent implements OnInit {
     private router: Router
   ) { }
 
+
   ngOnInit(): void {
     this.pagination(1)
   }
 
-  haha(index) {
-    console.log(index)
-  }
 
-
-  
   /**
    * Pagination.
    * @param  {number} index

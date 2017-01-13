@@ -13,7 +13,7 @@ var storage = multer.diskStorage({
     cb(null, path.join(__dirname, '../public/uploads'))
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname)
+    cb(null, Date.now() + '-' + file.originalname.replace(' '/gi, '-'))
   }
 })
 var upload = multer({ storage: storage })
@@ -23,10 +23,10 @@ var upload = multer({ storage: storage })
 /**
  * IndexRouter uses other routers.
  */
+var auth = require('./auth')
 var board = require('./board')
-var user = require('./user')
+router.use('/auth', auth)
 router.use('/board', board)
-router.use('/user', user)
 
 
 
@@ -39,7 +39,7 @@ router.get('/', (req, res) => {
 
 
 /**
- * Returns a lists of menu.
+ * Returns lists of menu.
  */
 router.get('/menu', (req, res) => {
   var promise = new Promise((resolve, reject) => {
@@ -65,7 +65,7 @@ router.get('/menu', (req, res) => {
 
 
 /**
- * Returns a lists of main.
+ * Returns lists of main.
  */
 router.get('/main', (req, res) => {
   var promise = new Promise((resolve, reject) => {

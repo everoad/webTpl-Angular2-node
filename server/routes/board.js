@@ -13,6 +13,8 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
  * @param {number} index
  * @param {string} menu_fir_seq
  * @param {string} mnue_sec_seq
+ * @param {string} stype
+ * @param {string} skey
  */
 .get((req, res) => {
   let data = JSON.parse(req.query.data)
@@ -21,29 +23,33 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
   var skey = data.skey
   var fir = req.params.menu_fir_seq
   var sec = req.params.menu_sec_seq
+
   var promise = new Promise((resolve, reject) => {
     boardModel.getTotalDataNum([fir, sec, stype, skey], (row, err) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(parseInt(row.total))
-      }
+      if (err) { return reject(err) }
+
+      resolve(parseInt(row.total)) 
     })
-  }).then((total) => {
+  })
+  .then((total) => {
     var dataPerPage = 12
     var totalPage = Math.ceil(total / dataPerPage)
+
     totalPage = (totalPage === 0) ? 1 : totalPage
     index = (index < 1) ? 1 : index
     index = (index > totalPage) ? totalPage : index
     var start = (index - 1) * dataPerPage
-    boardModel.getList([fir, sec, start, dataPerPage, stype, skey], (rows, err) => {
-      if (err) {
-        exceptionHander(err, res)
-      }
+
+    boardModel.getAll([fir, sec, start, dataPerPage, stype, skey], (rows, err) => {
+      if (err) { throw err }
+
       res.send({ boards: rows, total: total, dataPerPage: dataPerPage, totalPage: totalPage })
     })
-  }).catch(err => exceptionHander(err ,res))
+  }).catch(err => { throw err })
+
 })
+
+
 
 
 /**
@@ -95,9 +101,7 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
     }
   }
   boardModel.edit([title, content, frontImg, boardSeq], (affectedRows, err) => {
-    if (err) {
-      console.error(err.stack)
-    }
+    if (err) { throw err }
     res.send({ result: affectedRows })
   })
 })
@@ -126,7 +130,7 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
  */
 router.get('/:menu_fir_seq/:menu_sec_seq/:board_seq', (req, res) => {
   var seq = req.params.board_seq
-  boardModel.getDetail([seq], (row, err) => {
+  boardModel.getOne([seq], (row, err) => {
     if (err) {
       console.log(err)
     }
@@ -134,13 +138,5 @@ router.get('/:menu_fir_seq/:menu_sec_seq/:board_seq', (req, res) => {
   })
 })
 
-
-/**
- * Exception Handler
- * 
- */
-function exceptionHander(err, res) {
-  console.error('hi', err.stack)
-}
 
 module.exports = router

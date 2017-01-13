@@ -7,14 +7,16 @@ pool.getConnection().then((connection) => {
    * @param  {any[]} params
    * @param  {function(any[], Error)} callback
    */
-  exports.login = (params, callback) => {
+  exports.getOne = (params, callback) => {
     var sql =
-      'SELECT user_email, user_pwd FROM user WHERE user_email = ?'
+      'SELECT user_email, user_pwd, user_nick FROM user WHERE user_email = ?'
 
     connection.query(sql, params)
-      .then(rows => callback(rows[0]))
-      .catch((err) => callback(null, err))
+      .then(rows => callback(null, rows[0]))
+      .catch(err => callback(err, null))
   }
+
+  
 
 
   /**
@@ -22,13 +24,13 @@ pool.getConnection().then((connection) => {
    * @param {any[]} params
    * @param {function(any[], Error)} callback
    */
-  exports.join = (params, callback) => {
+  exports.add = (params, callback) => {
     var sql =
       'INSERT INTO user(user_email, user_nick, user_pwd, user_jdate, enabled) ' +
       'VALUES (?, ?, ?, now(), true)'
       
     connection.query(sql, params)
-      .then(result => callback(result.insertId))
-      .catch((err) => callback(null, err))
+      .then(result => callback(null, result.insertId))
+      .catch((err) => callback(err, null))
   }
 }).catch((err) => console.error('userModel : ' + err.stack))

@@ -46,7 +46,7 @@ export class BoardAddComponent implements OnInit {
    * Submit content.
    * @param {MouseEvent} event
    */
-  submit(even: MouseEvent) {
+  submit() {
     this.board.content = this.content.innerHTML
     this.route.params.switchMap((p: Params) => {
       this.board.menu_fir_seq = p['menu_fir_seq']

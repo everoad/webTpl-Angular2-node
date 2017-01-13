@@ -2,13 +2,12 @@ var pool = require('../db/connect')
 
 pool.getConnection().then((connection) => {
 
-
   /**
    * Get contents.
    * @param {any[]} params - [ menu_fir_seq, menu_sec_seq, start, dataPerPage, skey, stype ] LIMIT start, dataPerPage
    * @param {function(any[], Error)} callback
    */
-  exports.getList = (params, callback) => {
+  exports.getAll = (params, callback) => {
     var sql =
       'SELECT board_seq, title, DATE_FORMAT(reg_date, "%Y-%m-%d") reg_date, hit_count, reply_count, front_img, user_nick, board.menu_fir_seq, board.menu_sec_seq, menu_sec_name ' +
       'FROM board ' +
@@ -51,7 +50,7 @@ pool.getConnection().then((connection) => {
    * @param {any[]} params - [ board_seq ]
    * @param {function(any[], Error)} callback
    */
-  exports.getDetail = (params, callback) => {
+  exports.getOne = (params, callback) => {
     var sql =
       'SELECT board_seq, content, title, DATE_FORMAT(reg_date, "%Y-%m-%d") reg_date, hit_count, reply_count, user_nick, board.menu_fir_seq, board.menu_sec_seq ' +
       'FROM board ' +
@@ -114,6 +113,9 @@ pool.getConnection().then((connection) => {
       .then(result => callback(result.affectedRows))
       .catch((err) => callback(null, err))
   }
+
+
+
 
 }).catch((err) => {
   console.error('boardModel : ' + err.stack)

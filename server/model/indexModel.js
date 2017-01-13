@@ -2,7 +2,6 @@ var pool = require('../db/connect')
 
 pool.getConnection().then((connection) => {
 
-
   /**
    * Returns a list of first menu.
    * @param {function([], Error)} callback

@@ -23,7 +23,7 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
     this.indexService.getMainList()
-      .then(json => {this.boards = json; })
+      .then(json => {this.boards = json })
   }
 
 }

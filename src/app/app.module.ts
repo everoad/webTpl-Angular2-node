@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http'
 import { AppRoutingModule } from './app-routing.module'
 
 import { LocationStrategy,
-         HashLocationStrategy } from '@angular/common';
+         HashLocationStrategy } from '@angular/common'
 
 import { BoardService } from './services/board.service'
 import { IndexService } from './services/index.service'
@@ -15,6 +15,7 @@ import { SafeHtmlPipe } from './pipes/safehtml.pipe'
 
 import { AppComponent } from './app.component'
 import { MainComponent } from './components/main.component'
+
 import { BoardComponent } from './components/board/board.component'
 import { BoardAddComponent } from './components/board/board-add.component'
 import { BoardDetailComponent } from './components/board/board-detail.component'

@@ -22,14 +22,6 @@ export class LoginComponent {
 
   submit(event) {
     this.userService.login(this.user)
-      .then(json => {
-        if(json.result === 'fail-email') {
-          this.message = '존재하지 않는 이메일입니다.'
-        } else if(json.result === 'fail-pwd') {
-          this.message = '비밀번호가 틀렸습니다.'
-        } else {
-          this.location.go('/')
-        }
-      })
+      .then(json => alert(json.result))
   }
 }

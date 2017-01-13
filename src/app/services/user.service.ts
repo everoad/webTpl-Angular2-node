@@ -18,7 +18,7 @@ export class UserService {
   login(user: User) {
     var headers = new Headers()
     headers.append('Content-Type', 'application/json')
-    return this.http.post('/api/user/login', JSON.stringify(user), { headers: headers }).toPromise()
+    return this.http.post('/api/auth/login', JSON.stringify(user), { headers: headers }).toPromise()
       .then(res => res.json())
   }
 
@@ -31,8 +31,8 @@ export class UserService {
   join(user: User) {
     var headers = new Headers()
     headers.append('Content-Type', 'application/json')
-    return this.http.post('/api/user/join', JSON.stringify(user), { headers: headers }).toPromise()
+    return this.http.post('/api/auth/join', JSON.stringify(user), { headers: headers }).toPromise()
       .then(res => res.json())
   }
-
+  
 }
