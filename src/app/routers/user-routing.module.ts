@@ -8,10 +8,6 @@ const routes: Routes = [
   {
     path: 'user/login',
     component: LoginComponent
-  },
-  {
-    path: 'user/join',
-    component: JoinComponent
   }
 ]
 

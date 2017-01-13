@@ -37,9 +37,9 @@ passport.serializeUser(function(user, done) {
 
 /**
  * 로그인 후 유저 조회 메소드.
+ * request마다 호출됨.
  */
 passport.deserializeUser(function(id, done) {
-  console.log('deserialize', id)
   userModel.getOne([ id ], function (err, user) {
     done(err, user)
   })

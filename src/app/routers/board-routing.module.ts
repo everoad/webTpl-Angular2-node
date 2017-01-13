@@ -5,6 +5,7 @@ import { BoardDetailComponent } from '../components/board/board-detail.component
 import { BoardAddComponent } from '../components/board/board-add.component'
 
 const routes: Routes = [
+
   {
     path: 'board/:menu_fir_seq/:menu_sec_seq',
     component: BoardComponent

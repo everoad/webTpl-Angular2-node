@@ -13,8 +13,8 @@ pool.getConnection().then((connection) => {
       'ORDER BY menu_fir_index'
 
     connection.query(sql)
-      .then(rows => callback(rows))
-      .catch(err => callback(null, err))
+      .then(rows => callback(null, rows))
+      .catch(err => callback(err, null))
   }
 
 
@@ -29,8 +29,8 @@ pool.getConnection().then((connection) => {
       'FROM menu_sec WHERE menu_fir_seq = ?'
 
     connection.query(sql, params)
-      .then(rows => callback(rows))
-      .catch(err => callback(null, err))
+      .then(rows => callback(null, rows))
+      .catch(err => callback(err, null))
   }
 
 
@@ -52,8 +52,8 @@ pool.getConnection().then((connection) => {
       'LIMIT 0, 5'
     
     connection.query(sql, params)
-      .then(rows => callback(rows))
-      .catch(err => callback(null, err))
+      .then(rows => callback(null, rows))
+      .catch(err => callback(err, null))
   }
 
 }).catch((err) => {

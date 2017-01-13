@@ -6,7 +6,10 @@ var HTML = require('html-parse-stringify')
 
 
 router.route('/:menu_fir_seq/:menu_sec_seq')
+.all((req, res, next) => {
 
+  next()
+})
 
 /**
  * Returns list of content & pagination data.
@@ -25,7 +28,7 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
   var sec = req.params.menu_sec_seq
 
   var promise = new Promise((resolve, reject) => {
-    boardModel.getTotalDataNum([fir, sec, stype, skey], (row, err) => {
+    boardModel.getTotalDataNum([fir, sec, stype, skey], (err, row) => {
       if (err) { return reject(err) }
 
       resolve(parseInt(row.total)) 
@@ -40,7 +43,7 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
     index = (index > totalPage) ? totalPage : index
     var start = (index - 1) * dataPerPage
 
-    boardModel.getAll([fir, sec, start, dataPerPage, stype, skey], (rows, err) => {
+    boardModel.getAll([fir, sec, start, dataPerPage, stype, skey], (err, rows) => {
       if (err) { throw err }
 
       res.send({ boards: rows, total: total, dataPerPage: dataPerPage, totalPage: totalPage })
@@ -60,12 +63,12 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
  * @param {string} content
  * @param {string} user_email
  */
-.post((req, res) => {
+.post(isAuthenticated, (req, res) => {
   var firSeq = req.body.menu_fir_seq
   var secSeq = req.body.menu_sec_seq
   var title = req.body.title
   var content = req.body.content
-  var userEmail = 'test'
+  var userEmail = req.user.user_email
   var frontImg
   for (let tag of HTML.parse(content)) {
     if (tag.name === 'img') {
@@ -73,10 +76,8 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
       break
     }
   }
-  boardModel.add([title, content, frontImg, userEmail, firSeq, secSeq], (insertId, err) => {
-    if (err) {
-      console.error(err.stack)
-    }
+  boardModel.add([title, content, frontImg, userEmail, firSeq, secSeq], (err, insertId) => {
+    if (err) { throw err }
     res.send({ board_seq: insertId })
   })
 })
@@ -89,7 +90,7 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
  * @param {string} title
  * @param {string} content
  */
-.put((req, res) => {
+.put(isAuthenticated, (req, res) => {
   var boardSeq = req.body.board_seq
   var title = req.body.title
   var content = req.body.content
@@ -100,7 +101,7 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
       break
     }
   }
-  boardModel.edit([title, content, frontImg, boardSeq], (affectedRows, err) => {
+  boardModel.edit([title, content, frontImg, boardSeq], (err, affectedRows) => {
     if (err) { throw err }
     res.send({ result: affectedRows })
   })
@@ -112,12 +113,10 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
  * Delete content & Returns affectedRows.
  * @param {string} board_seq
  */
-.delete((req, res) => {
+.delete(isAuthenticated, (req, res) => {
   var boardSeq = req.body.board_seq
-  boardModel.delete([boardSeq], (affectedRows, err) => {
-    if (err) {
-      console.error(err.stack)
-    }
+  boardModel.delete([boardSeq], (err, affectedRows) => {
+    if (err) { throw err }
     res.send({ result: affectedRows })
   })
 })
@@ -130,13 +129,25 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
  */
 router.get('/:menu_fir_seq/:menu_sec_seq/:board_seq', (req, res) => {
   var seq = req.params.board_seq
-  boardModel.getOne([seq], (row, err) => {
-    if (err) {
-      console.log(err)
-    }
+  boardModel.getOne([seq], (err, row) => {
+    if (err) { throw err }
     res.send(row)
   })
 })
+
+
+
+
+/**
+ * 로그인 여부 확인.
+ */
+function isAuthenticated(req, res, next) {
+  if (req.user) {
+      return next()
+  }
+  res.send({ result: '잘못된 접근입니다.' })
+}
+
 
 
 module.exports = router

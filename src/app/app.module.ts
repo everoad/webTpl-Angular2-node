@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { HttpModule } from '@angular/http'
 import { AppRoutingModule } from './app-routing.module'
+import { LocalStorageModule } from 'angular-2-local-storage'
 
 import { LocationStrategy,
          HashLocationStrategy } from '@angular/common'
@@ -26,6 +27,7 @@ import { JoinComponent } from './components/user/join.component'
 import { HeaderComponent } from './components/templates/header/header.component'
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,7 +44,11 @@ import { HeaderComponent } from './components/templates/header/header.component'
     BrowserModule,
     FormsModule,
     HttpModule,
-    AppRoutingModule
+    AppRoutingModule,
+    LocalStorageModule.withConfig({
+      prefix: 'my-app',
+      storageType: 'sessionStorage'
+    })
   ],
   providers: [
     IndexService,

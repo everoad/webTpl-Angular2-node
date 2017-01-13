@@ -15,7 +15,7 @@ var userModel = require('../model/userModel')
 router.post('/login',
   passport.authenticate('local', { successRedirect: '/api/auth/login/success',
                                   failureRedirect: '/api/auth/login/fail',
-                                  failureFlash: true })
+                                  failureFlash: false })
 )
 
 
@@ -23,7 +23,11 @@ router.post('/login',
  * Login Success.
  */
 router.get('/login/success', (req ,res) => {
-  res.send({ result: 'success' })
+  res.send(
+    { 
+      result: 'success',
+      user : req.user
+    })
 })
 
 
@@ -40,9 +44,10 @@ router.get('/login/fail', (req ,res) => {
  * Logout.
  */
 router.get('/logout', (req, res) => {
+  console.log('logout')
   req.logout()
   req.session.save(() => {
-    res.send({ result: true })
+    res.send({ result: 'success' })
   })
 })
 
@@ -61,9 +66,7 @@ router.post('/join', (req, res, next) => {
   var userPwd = sha256(req.body.user_pwd)
   
   userModel.add([userEmail, userNick, userPwd], (err, insertId) => {
-    if (err) {
-      console.error(err.stack)
-    }
+    if (err) { throw err }
     req.userEmail = userEmail
     next()
   })
@@ -74,10 +77,9 @@ router.post('/join', (req, res) => {
   userModel.getOne([userEmail], (err, user) => {
     console.log(user)
     req.logIn(user, (err) => {
-      if (err) { return console.error(err.stack) }
-      req.session.save(function() {
-        res.redirect('/api/auth/login/success')
-      })
+      if (err) { throw err }
+      res.redirect('/api/auth/login/success')
+     
     })
   })
 })

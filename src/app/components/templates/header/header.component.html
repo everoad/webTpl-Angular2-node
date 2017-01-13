@@ -38,9 +38,15 @@
             </ul>
           </li>
         </ul>
-        <ul class="list-inline header-socials">
-          <a routerLink="user/login" class="btn btn-default btn-sm">Sign In</a>
-          <a routerLink="user/join" class="btn btn-success btn-sm">Sign Up</a>
+        <ul class="list-inline header-socials" *ngIf="!localStorage.get('user')">
+          <a (click)="showLoginDialog = !showLoginDialog" class="btn btn-default btn-sm">Sign In</a>
+          <login-dialog [(visible)]="showLoginDialog"></login-dialog>
+          <a (click)="showJoinDialog = !showJoinDialog" class="btn btn-success btn-sm">Sign Up</a>
+          <join-dialog [(visible)]="showJoinDialog"></join-dialog>
+				</ul>
+        <ul class="list-inline header-socials" *ngIf="localStorage.get('user')">
+          <p class="copyright-text" [innerText]="localStorage.get('user').user_email + '님, 반갑습니다.'"></p>
+          <a (click)="logout()" class="btn btn-default btn-sm">Logout</a>
 				</ul>
         <p class="copyright-text">&copy; 2015 Unify. All Rights Reserved.</p>
         <ul class="list-inline header-socials">

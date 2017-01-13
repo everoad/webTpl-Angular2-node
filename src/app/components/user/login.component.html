@@ -1,4 +1,5 @@
-<div class="container">
+<div [@dialog] *ngIf="visible" class="dialog">
+  <button *ngIf="closable" (click)="close()" aria-label="Close" class="dialog__close-btn">X</button>
   <form>
       <div class="reg-block">
         <div class="reg-block-header">
@@ -39,3 +40,4 @@
         </div>
     </form>
 </div>
+<div *ngIf="visible" class="overlay" (click)="close()"></div>

@@ -21,8 +21,8 @@ pool.getConnection().then((connection) => {
       'LIMIT ?, ?'
 
     connection.query(sql, params)
-      .then((rows) => callback(rows))
-      .catch((err) => callback(null, err))
+      .then((rows) => callback(null, rows))
+      .catch((err) => callback(err, null))
   }
 
 
@@ -39,8 +39,8 @@ pool.getConnection().then((connection) => {
       'AND board.menu_sec_seq = ? '
 
     connection.query(sql, params)
-      .then(rows => callback(rows[0]))
-      .catch((err) => callback(null, err))
+      .then(rows => callback(null, rows[0]))
+      .catch((err) => callback(err, null))
   }
 
 
@@ -59,8 +59,8 @@ pool.getConnection().then((connection) => {
       'WHERE board_seq = ? '
 
     connection.query(sql, params)
-      .then((rows) => callback(rows[0]))
-      .catch((err) => callback(null, err))
+      .then((rows) => callback(null, rows[0]))
+      .catch((err) => callback(err, null))
   }
 
 
@@ -76,8 +76,8 @@ pool.getConnection().then((connection) => {
       'VALUES (?, ?, now(), 0, 0, ?, ?, ?, ?)'
 
     connection.query(sql, params)
-      .then((result) => callback(result.insertId))
-      .catch((err) => callback(null, err))
+      .then((result) => callback(null, result.insertId))
+      .catch((err) => callback(err, null))
   }
 
 
@@ -94,8 +94,8 @@ pool.getConnection().then((connection) => {
       'WHERE board_seq = ?'
 
     connection.query(sql, params)
-      .then(result => callback(result.affectedRows))
-      .catch(err => callback(null, err))
+      .then(result => callback(null, result.affectedRows))
+      .catch(err => callback(err, null))
   }
 
 
@@ -110,8 +110,8 @@ pool.getConnection().then((connection) => {
       'DELETE FROM board WHERE board_seq = ?'
 
     connection.query(sql, params)
-      .then(result => callback(result.affectedRows))
-      .catch((err) => callback(null, err))
+      .then(result => callback(null, result.affectedRows))
+      .catch((err) => callback(err, null))
   }
 
 

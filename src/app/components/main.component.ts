@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { IndexService } from '../services/index.service' 
 
-
 @Component({
   moduleId: module.id + '',
   templateUrl: './main.component.html',
@@ -23,7 +22,7 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
     this.indexService.getMainList()
-      .then(json => {this.boards = json })
+      .then(json => { this.boards = json })
   }
 
 }

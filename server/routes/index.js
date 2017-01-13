@@ -1,19 +1,24 @@
 var express = require('express')
 var router = express.Router()
 
+//Module.
 var path = require('path')
+var multer = require('multer')
+
+
+//custom
 var indexModel = require('../model/indexModel')
+
 
 /**
  * Multer for Upload.
  */
-var multer = require('multer')
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.join(__dirname, '../public/uploads'))
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname.replace(' '/gi, '-'))
+    cb(null, Date.now() + '-' + file.originalname.replace(/ /gi, '-'))
   }
 })
 var upload = multer({ storage: storage })
@@ -43,24 +48,20 @@ router.get('/', (req, res) => {
  */
 router.get('/menu', (req, res) => {
   var promise = new Promise((resolve, reject) => {
-    indexModel.getMenuFir((menuFir, err) => {
-      if (err) {
-        console.error(err.stack)
-      }
+    indexModel.getMenuFir((err, menuFir) => {
+      if (err) { return resolve(err) }
       resolve(menuFir)
     })
   })
   promise.then(menuFir => menuFir.map((fir, index) => {
-    indexModel.getMenuSec([fir.menu_fir_seq], (menuSec, err) => {
-      if (err) {
-        console.error(err.stack)
-      }
+    indexModel.getMenuSec([fir.menu_fir_seq], (err, menuSec) => {
+      if (err) { throw err }
       fir['menu_sec'] = menuSec
       if (index === (menuFir.length - 1)) {
         res.send(menuFir)
       }
     })
-  })).catch(err => console.error(err.stack))
+  })).catch(err => { throw err })
 })
 
 
@@ -69,18 +70,14 @@ router.get('/menu', (req, res) => {
  */
 router.get('/main', (req, res) => {
   var promise = new Promise((resolve, reject) => {
-    indexModel.getMenuFir((menuFir, err) => {
-      if (err) {
-        console.error(err.stack)
-      }
+    indexModel.getMenuFir((err, menuFir) => {
+      if (err) { throw err }
       resolve(menuFir)
     })
   })
   promise.then(menuFir => menuFir.map((fir, index) => {
-    indexModel.getMainAll([fir.menu_fir_seq], (boards, err) => {
-      if (err) {
-        console.error(err)
-      }
+    indexModel.getMainAll([fir.menu_fir_seq], (err, boards) => {
+      if (err) { throw err }
       fir['menu_sec'] = boards
       if ((index + 1) === menuFir.length) {
         res.send(menuFir)
@@ -96,8 +93,8 @@ router.get('/main', (req, res) => {
  * Returns img file.
  * @param {string} img - image name
  */
-router.get('/img', (req, res) => {
-  let img = decodeURIComponent(req.query.img)
+router.get('/public/uploads/:img', (req, res) => {
+  let img = decodeURIComponent(req.params.img)
   res.sendFile(path.join(__dirname, '../public/uploads/' + img))
 })
 
@@ -115,5 +112,7 @@ router.post('/upload', upload.single('file'), (req, res) => {
     originalFileName: req.file.originalname
   })
 })
+
+
 
 module.exports = router

@@ -70,7 +70,7 @@ export class BoardAddComponent implements OnInit {
     this.indexService.uploadImg(file)
       .then(json => {
         let elem = document.createElement('img')
-        elem.setAttribute('src', 'api/img?img=' + json.uploadFileName)
+        elem.setAttribute('src', 'api/public/uploads/' + json.uploadFileName)
         elem.setAttribute('alt', json.originalFileName)
         this.content.appendChild(elem)
       })
