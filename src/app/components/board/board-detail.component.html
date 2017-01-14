@@ -11,12 +11,9 @@
                 <i class="fa fa-eye"></i>{{board.hit_count}} &nbsp;&nbsp;
                 <i class="fa fa-comments"></i>{{board.reply_count}} &nbsp;&nbsp;
                 <i class="fa fa-clock-o"></i>{{board.reg_date}} &nbsp;&nbsp;
-                <span class="cstmspan">
-                  <a><i class="fa fa-pencil"></i>수정</a>
-                  <form action="" method="post">
-                    <input type="hidden" name="user_email" value="{{board.user_email}}" />
-                    <button class="btn btn-link"><i class="fa fa-trash"></i>&nbsp;삭제</button>
-                  </form>
+                <span class="cstmspan" *ngIf="ls.get('user') && ls.get('user').user_email === board.user_email">
+                  <a (click)="edit()"><i class="fa fa-pencil"></i>수정</a>
+                  <a (click)="delete()"><i class="fa fa-trash"></i>삭제</a>
                 </span>
               </h5>
             </div>
@@ -26,28 +23,7 @@
             <h5><a [routerLink]="['/board', board.menu_fir_seq, board.menu_sec_seq]" routerLinkActive="active"><i class="icon-list"></i>목록</a></h5>
           </div>
         </div>
-        <div class="panel panel-profile">
-          <div class="panel-heading">
-            <h2 class="panel-title pull-left">
-              <i class="fa fa-comments"></i>댓글
-            </h2>
-          </div>
-          <div class="panel-body">
-               <!--<div>
-                <p>로그인 후 사용해 주세요.</p>
-                <a href="/template/user/login">Login</a>
-              </div>-->
-    
-            <label class="textarea">
-              <textarea rows="3" cols="" id="content"></textarea>
-            </label>
-            <div align="right">
-              <button id="addReplyBtn" class="btn-u">완료</button>
-            </div>
-          </div>
-          <div class="panel-body" id="comment">
-          </div>
-        </div>
+        <board-reply [boardSeq]="board.board_seq"></board-reply>
       </div>
     </div>
     <div class="col-md-2"></div>

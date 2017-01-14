@@ -1,10 +1,17 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core'
-import { ActivatedRoute, Params, Router } from '@angular/router'
+import { ActivatedRoute, Params, Router, NavigationExtras } from '@angular/router'
 
-import { Board } from '../../board'
+import { EventService } from '../../services/event.service'
 import { BoardService } from '../../services/board.service'
+import { LocalStorageService } from 'angular-2-local-storage'
+
+import { User } from '../../user'
+import { Board } from '../../board'
 
 import 'rxjs/add/operator/switchMap'
+
+
+
 
 @Component({
   moduleId: module.id + '',
@@ -13,10 +20,13 @@ import 'rxjs/add/operator/switchMap'
   encapsulation: ViewEncapsulation.None
 })
 
+
+
 export class BoardDetailComponent implements OnInit {
   
-  board: Board
 
+  board: Board
+  index: number
 
 
   /**
@@ -27,19 +37,62 @@ export class BoardDetailComponent implements OnInit {
   constructor(
     private boardService: BoardService,
     private route: ActivatedRoute,
+    private ls : LocalStorageService,
+    private eventService: EventService,
     private router: Router
-  ) {}
+  ) { }
 
-  ngOnInit() {
+
+
+
+  ngOnInit(): void {
     this.board = new Board()
-    this.route.params.switchMap((p: Params) => 
-      this.boardService.getDetail({
-        "board_seq": p['board_seq'],
-        "menu_fir_seq": p['menu_fir_seq'],
-        "menu_sec_seq": p['menu_sec_seq']
-      })).subscribe(board => {
-        this.board = board
-        console.log(this.board)
+    this.route.queryParams.subscribe((p: Params) => {
+      this.index = p['index']
+    })
+
+    this.route.params.switchMap((p: Params) => {
+      this.board.board_seq = p['board_seq']
+      this.board.menu_fir_seq = p['menu_fir_seq']
+      this.board.menu_sec_seq = p['menu_sec_seq']
+      return this.boardService.getOne(this.board)
+
+    }).subscribe(board => this.board = board)
+  }
+
+
+
+
+  edit(): void {
+    
+    this.ls.set('board_user_email', this.board.user_email)
+    this.router.navigate([ 'board',
+                            this.board.menu_fir_seq,
+                            this.board.menu_sec_seq, 
+                            this.board.board_seq,
+                            'edit' ])
+  
+  }
+
+
+
+
+  delete(): void {
+
+    if ((<User> this.ls.get('user')).user_email !== this.board.user_email) {
+      return alert('deny')
+    }
+
+    this.boardService.delete(this.board)
+      .then(json => {
+        if (json.result === 1) {
+          // let navigationExtras: NavigationExtras = {
+          //   queryParams: { index: this.index },
+          //   fragment: 'anchor'
+          // }
+
+          this.router.navigate(['board', this.board.menu_fir_seq, this.board.menu_sec_seq])
+        }
       })
   }
 }

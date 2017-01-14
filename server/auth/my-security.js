@@ -3,7 +3,7 @@
 
 const DENY = '잘못된 접근입니다.'
 const ROLE_ADMIN = 'ROLE_ADMIN'
-
+const ROLE_USER = 'ROLE_USER'
 
 
 

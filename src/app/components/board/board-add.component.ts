@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core'
+import { Component, ViewEncapsulation, OnInit } from '@angular/core'
 import { BoardService } from '../../services/board.service'
 import { IndexService } from '../../services/index.service'
 import { Board } from '../../board'
@@ -9,8 +9,7 @@ import 'rxjs/add/operator/switchMap'
 @Component({
   moduleId: module.id + '',
   templateUrl: './board-add.component.html',
-  styleUrls: ['./board-add.component.css'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./board-add.component.css']
 })
 
 export class BoardAddComponent implements OnInit {
@@ -30,9 +29,9 @@ export class BoardAddComponent implements OnInit {
     private indexService: IndexService,
     private route: ActivatedRoute,
     private router: Router
-  ) { }
-
-
+  ) {
+  }
+  
 
   ngOnInit() {
     this.board = new Board()
@@ -40,11 +39,9 @@ export class BoardAddComponent implements OnInit {
   }
 
 
-
  
   /**
    * Submit content.
-   * @param {MouseEvent} event
    */
   submit() {
     this.board.content = this.content.innerHTML
@@ -52,7 +49,12 @@ export class BoardAddComponent implements OnInit {
       this.board.menu_fir_seq = p['menu_fir_seq']
       this.board.menu_sec_seq = p['menu_sec_seq']
       return this.boardService.add(this.board)
-     }).subscribe(json => console.log(json))
+     }).subscribe(json => {
+       this.router.navigate([ 'board',
+                              this.board.menu_fir_seq,
+                              this.board.menu_sec_seq,
+                              json.board_seq ])
+     })
   }
 
 
@@ -63,9 +65,8 @@ export class BoardAddComponent implements OnInit {
    */
   upload(event) {
     var file: File = event.target.files[0]
-    if (file['type'] !== 'image/jpeg') {
-      alert('이미지 파일이 아닙니다.')
-      return
+    if (file.type !== 'image/jpeg' && file.type !== 'image/git' && file.type !== 'image/png') {
+      return alert('이미지 파일이 아닙니다.')
     }
     this.indexService.uploadImg(file)
       .then(json => {

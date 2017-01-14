@@ -33,7 +33,9 @@
             <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" routerLinkActive="active">{{fir.menu_fir_name}}</a>
             <ul class="dropdown-menu">
               <li *ngFor="let sec of fir.menu_sec">
-                <a [routerLink]="['board', sec.menu_fir_seq, sec.menu_sec_seq]" routerLinkActive="active">{{ sec.menu_sec_name }}</a>
+                <a [routerLink]="['board', sec.menu_fir_seq, sec.menu_sec_seq]"
+                   [queryParams]="{ index: 1 }" 
+                   routerLinkActive="active">{{ sec.menu_sec_name }}</a>
               </li>
             </ul>
           </li>

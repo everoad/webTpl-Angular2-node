@@ -1,42 +1,90 @@
 import { Injectable }      from '@angular/core'
-import { Http, Headers }   from '@angular/http'
+import { Http, Headers, Response }   from '@angular/http'
 
-import { Board }           from '../board'
+import { Reply } from '../reply'
+import { Board } from '../board'
 import 'rxjs/add/operator/toPromise'
 
 @Injectable()
 export class BoardService {
   
+  
   constructor(
     private http: Http
-  ){}
+  ) { }
   
   
 
-  getList(data, query) {
-    console.log(query)
+  getAll(data, query) {
     return this.http.get(`/api/board/${data.menu_fir_seq}/${data.menu_sec_seq}?data=${JSON.stringify(query)}`).toPromise()
-      .then(res => res.json())
+      .then((res: Response) => res.json())
   }
 
 
 
 
-  getDetail(data): Promise<Board> {
-    return this.http.get(`/api/board/${data.menu_fir_seq}/${data.menu_fir_seq}/${data.board_seq}`).toPromise()
-      .then(res => res.json())
+  getOne(board: Board): Promise<Board> {
+    return this.http.get(`/api/board/${board.menu_fir_seq}/${board.menu_sec_seq}/${board.board_seq}`).toPromise()
+      .then((res: Response) => res.json())
   }
-
-
 
 
 
 
   add(board: Board) {
-    var headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    return this.http.post(`/api/board/${board.menu_fir_seq}/${board.menu_fir_seq}`, JSON.stringify(board), { headers: headers }).toPromise()
-      .then(res => res.json())
+    var headers = new Headers()
+    headers.append('Content-Type', 'application/json')
+    return this.http.post(`/api/board/${board.menu_fir_seq}/${board.menu_sec_seq}`, JSON.stringify(board), { headers: headers }).toPromise()
+      .then((res: Response) => res.json())
+  }
+
+
+
+
+  edit(board: Board) {
+    var headers = new Headers()
+    headers.append('Content-Type', 'application/json')
+    return this.http.put(`/api/board/${board.menu_fir_seq}/${board.menu_sec_seq}`, JSON.stringify(board), { headers: headers }).toPromise()
+      .then((res: Response) => res.json())
+  }
+
+
+
+
+  delete(board: Board) {
+    var headers = new Headers()
+    headers.append('Content-Type', 'application/json')
+    return this.http.delete(`/api/board/${board.menu_fir_seq}/${board.menu_sec_seq}`, { body: JSON.stringify(board), headers: headers }).toPromise()
+      .then((res: Response) => res.json())  
+  }
+
+
+
+
+
+  getReplyAll(board_seq: string): Promise<Reply[]> {
+    return this.http.get(`/api/board/reply?board_seq=${board_seq}`).toPromise()
+      .then((res: Response) => res.json())
+  }
+
+
+
+
+  addReply(reply: Reply) {
+    var headers = new Headers()
+    headers.append('Content-Type', 'application/json')
+    return this.http.post(`/api/board/reply`, JSON.stringify(reply), { headers: headers }).toPromise()
+      .then((res: Response) => res.json())
+  }
+
+
+
+
+  deleteReply(reply: Reply) {
+    var headers = new Headers()
+    headers.append('Content-Type', 'application/json')
+    return this.http.delete('/api/board/reply', { body: JSON.stringify(reply), headers: headers }).toPromise()
+      .then((res: Response) => res.json())
   }
 
 }

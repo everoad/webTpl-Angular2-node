@@ -52,7 +52,7 @@ pool.getConnection().then((connection) => {
    */
   exports.getOne = (params, callback) => {
     var sql =
-      'SELECT board_seq, content, title, DATE_FORMAT(reg_date, "%Y-%m-%d") reg_date, hit_count, reply_count, user_nick, board.menu_fir_seq, board.menu_sec_seq ' +
+      'SELECT board_seq, content, title, DATE_FORMAT(reg_date, "%Y-%m-%d") reg_date, hit_count, reply_count, user_nick, board.user_email, board.menu_fir_seq, board.menu_sec_seq ' +
       'FROM board ' +
       'JOIN user ' +
       'ON user.user_email = board.user_email ' +

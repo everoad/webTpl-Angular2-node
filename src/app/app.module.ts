@@ -23,6 +23,7 @@ import { MainComponent } from './components/main.component'
 
 import { BoardComponent } from './components/board/board.component'
 import { BoardAddComponent } from './components/board/board-add.component'
+import { BoardEditComponent } from './components/board/board-edit.component'
 import { BoardDetailComponent } from './components/board/board-detail.component'
 
 import { LoginComponent } from './components/user/login.component'
@@ -38,6 +39,7 @@ import { HeaderComponent } from './components/templates/header/header.component'
     MainComponent,
     BoardComponent,
     BoardAddComponent,
+    BoardEditComponent,
     BoardDetailComponent,
     LoginComponent,
     JoinComponent,

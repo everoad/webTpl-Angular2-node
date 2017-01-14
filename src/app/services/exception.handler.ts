@@ -12,6 +12,8 @@ export class ExceptionHandler implements ErrorHandler {
     private eventService: EventService
   ) { }
 
+
+
   handleError(err: Error) {
     let orinalError = err['originalError']
   }

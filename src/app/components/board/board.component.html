@@ -54,20 +54,17 @@
     <ul class="pagination">
       <li>
         <a [routerLink]="" 
-           [queryParams]="{ index: previous }" 
-           (click)="pagination(previous)" 
-           routerLinkActive="active">&laquo;</a></li>
-      <li *ngFor="let i of indexArr" class="{{ (index === i) ? 'active' : '' }}">
+           [queryParams]="{ index: previous }">&laquo;</a>
+      </li>
+      <li *ngFor="let i of indexArr" routerLinkActive="active">
         <a [routerLink]="" 
-           [queryParams]="{ index: i, skey: skey }" 
-           (click)="pagination(i)" 
-           routerLinkActive="active">{{i}}</a>
+           [queryParams]="{ index: i }" 
+           >{{i}}</a>
       </li>
       <li>
         <a [routerLink]="" 
-           [queryParams]="{ index: next }"
-           (click)="pagination(next)" 
-           routerLinkActive="active">&raquo;</a></li>
+           [queryParams]="{ index: next }">&raquo;</a>
+      </li>
     </ul>
     <form class="form form-inline">
       <div class="searchbox" align="center">

@@ -103,7 +103,7 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
   }
   boardModel.edit([title, content, frontImg, boardSeq], (err, affectedRows) => {
     if (err) { throw err }
-    res.send({ result: affectedRows })
+    res.send({ result: 'success' })
   })
 })
 

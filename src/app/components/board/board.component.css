@@ -13,6 +13,7 @@
 }
 
 .disabled {
+  background: white;
   pointer-events: none;
 }
 
