@@ -113,7 +113,7 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
  * Delete content & Returns affectedRows.
  * @param {string} board_seq
  */
-.delete(isAuthenticated, (req, res) => {
+.delete((req, res) => {
   var boardSeq = req.body.board_seq
   boardModel.delete([boardSeq], (err, affectedRows) => {
     if (err) { throw err }
@@ -142,12 +142,13 @@ router.get('/:menu_fir_seq/:menu_sec_seq/:board_seq', (req, res) => {
  * 로그인 여부 확인.
  */
 function isAuthenticated(req, res, next) {
-  if (req.user) {
-      return next()
-  }
-  res.send({ result: '잘못된 접근입니다.' })
-}
 
+  console.log(req, res, next)
+  
+  return next()
+  
+  
+}
 
 
 module.exports = router

@@ -3,16 +3,18 @@ import { RouterModule, Routes } from '@angular/router'
 import { BoardComponent } from '../components/board/board.component'
 import { BoardDetailComponent } from '../components/board/board-detail.component'
 import { BoardAddComponent } from '../components/board/board-add.component'
+import { AuthGuard } from '../services/auth.guard'
 
 const routes: Routes = [
 
   {
     path: 'board/:menu_fir_seq/:menu_sec_seq',
-    component: BoardComponent
+    component: BoardComponent,
   },
   {
     path: 'board/:menu_fir_seq/:menu_sec_seq/add',
-    component: BoardAddComponent
+    component: BoardAddComponent,
+    canActivate: [ AuthGuard ]
   },
   {
     path: 'board/:menu_fir_seq/:menu_sec_seq/:board_seq',

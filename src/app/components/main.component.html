@@ -1,6 +1,5 @@
 <div class="container">
   <div class="content col-md-11">
-  
     <div class="menu" *ngFor="let fir of boards">
       <h1><a [routerLink]="['board', fir.menu_fir_seq, fir.menu_sec[0].menu_sec_seq]" class="custom-headline">{{fir.menu_fir_name}}</a></h1>
       <br />

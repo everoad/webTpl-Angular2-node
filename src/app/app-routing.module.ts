@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core'
 
 import { BoardRoutingModule } from './routers/board-routing.module'
-import { UserRoutingModule } from './routers/user-routing.module'
 
 import { RouterModule, Routes } from '@angular/router'
 import { MainComponent } from './components/main.component'
@@ -14,8 +13,8 @@ const routes: Routes = [
 ]
 
 @NgModule({
-  imports: [BoardRoutingModule, UserRoutingModule, RouterModule.forRoot(routes)],
-  exports: [BoardRoutingModule, UserRoutingModule, RouterModule]
+  imports: [BoardRoutingModule, RouterModule.forRoot(routes)],
+  exports: [BoardRoutingModule, RouterModule]
 })
 
 export class AppRoutingModule{}

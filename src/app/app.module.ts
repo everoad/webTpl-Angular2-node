@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms'
 import { HttpModule } from '@angular/http'
 import { AppRoutingModule } from './app-routing.module'
 import { LocalStorageModule } from 'angular-2-local-storage'
+import { ErrorHandler } from '@angular/core'
 
 import { LocationStrategy,
          HashLocationStrategy } from '@angular/common'
@@ -11,6 +12,9 @@ import { LocationStrategy,
 import { BoardService } from './services/board.service'
 import { IndexService } from './services/index.service'
 import { UserService }  from './services/user.service'
+import { EventService } from './services/event.service'
+import { ExceptionHandler } from './services/exception.handler'
+import { AuthGuard } from './services/auth.guard'
 
 import { SafeHtmlPipe } from './pipes/safehtml.pipe'
 
@@ -54,6 +58,9 @@ import { HeaderComponent } from './components/templates/header/header.component'
     IndexService,
     BoardService, 
     UserService,
+    EventService,
+    AuthGuard,
+    { provide: ErrorHandler, useClass: ExceptionHandler },
     { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent]

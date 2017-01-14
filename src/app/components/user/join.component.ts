@@ -50,7 +50,7 @@ export class JoinComponent {
   }
 
    close() {
-    this.visible = false,
+    this.visible = false
     this.visibleChange.emit(this.visible)
   }
 

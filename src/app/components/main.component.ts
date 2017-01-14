@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core'
 import { IndexService } from '../services/index.service' 
+import { EventService } from '../services/event.service'
 
+import { LoginComponent } from './user/login.component'
+ 
 @Component({
   moduleId: module.id + '',
   templateUrl: './main.component.html',
@@ -17,8 +20,10 @@ export class MainComponent implements OnInit {
   boards;
 
   constructor(
-    private indexService: IndexService
+    private indexService: IndexService,
+    private eventService: EventService
   ) { }
+
 
   ngOnInit() {
     this.indexService.getMainList()
