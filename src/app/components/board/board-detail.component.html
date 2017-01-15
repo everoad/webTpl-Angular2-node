@@ -23,7 +23,7 @@
             <h5><a [routerLink]="['/board', board.menu_fir_seq, board.menu_sec_seq]" routerLinkActive="active"><i class="icon-list"></i>목록</a></h5>
           </div>
         </div>
-        <board-reply [boardSeq]="board.board_seq"></board-reply>
+        <board-reply [(boardSeq)]="board.board_seq"></board-reply>
       </div>
     </div>
     <div class="col-md-2"></div>

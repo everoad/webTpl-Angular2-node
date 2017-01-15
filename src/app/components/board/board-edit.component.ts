@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { Router, ActivatedRoute, Params } from '@angular/router'
 import { BoardService } from '../../services/board.service'
 import { IndexService } from '../../services/index.service'
-import { Board } from '../../board'
+import { Board } from '../../dtos/board'
 
 @Component({
   moduleId: module.id + '',

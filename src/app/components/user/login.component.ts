@@ -2,7 +2,7 @@ import { Component, Input, OnInit, Output, OnChanges, EventEmitter,
           trigger, state, style, animate, transition } from '@angular/core'
 import { Router } from '@angular/router'
 
-import { User } from '../../user'
+import { User } from '../../dtos/user'
 
 import { EventService } from '../../services/event.service'
 import { UserService } from '../../services/user.service'

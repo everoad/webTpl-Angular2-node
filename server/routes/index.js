@@ -5,7 +5,6 @@ var router = express.Router()
 var path = require('path')
 var multer = require('multer')
 
-
 //custom
 var indexModel = require('../model/indexModel')
 
@@ -30,8 +29,10 @@ var upload = multer({ storage: storage })
  */
 var auth = require('./auth')
 var board = require('./board')
+var admin = require('./admin')
 router.use('/auth', auth)
 router.use('/board', board)
+router.use('/admin', admin)
 
 
 

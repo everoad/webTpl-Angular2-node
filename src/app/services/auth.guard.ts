@@ -3,7 +3,7 @@ import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from
 import { LocalStorageService } from 'angular-2-local-storage'
 import { Observable } from 'rxjs/Rx'
 import { EventService } from './event.service'
-import { User } from '../user'
+import { User } from '../dtos/user'
 import { Location } from '@angular/common'
 
 @Injectable()

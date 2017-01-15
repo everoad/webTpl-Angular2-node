@@ -5,12 +5,11 @@ var app = express()
 // Module.
 var path = require('path')
 var bodyParser = require('body-parser')
-
+var socketio = require('socket.io')
 
 // Custom.
 var index = require('./routes/index')
 var localPassport = require('./auth/local.passport')
-
 
 
 app.set('view engine', 'jade')

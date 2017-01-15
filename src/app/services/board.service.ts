@@ -1,8 +1,8 @@
 import { Injectable }      from '@angular/core'
 import { Http, Headers, Response }   from '@angular/http'
 
-import { Reply } from '../reply'
-import { Board } from '../board'
+import { Reply } from '../dtos/reply'
+import { Board } from '../dtos/board'
 import 'rxjs/add/operator/toPromise'
 
 @Injectable()

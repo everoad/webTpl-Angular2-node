@@ -6,7 +6,7 @@ import { IndexService } from '../../../services/index.service'
 import { UserService } from '../../../services/user.service'
 import { LocalStorageService } from 'angular-2-local-storage'
 
-import { User } from '../../../user'
+import { User } from '../../../dtos/user'
 
 
 @Component({

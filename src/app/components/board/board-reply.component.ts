@@ -3,7 +3,7 @@ import { Component, OnInit, Input } from '@angular/core'
 import { BoardService } from '../../services/board.service'
 import { LocalStorageService } from 'angular-2-local-storage'
 
-import { Reply } from '../../reply'
+import { Reply } from '../../dtos/reply'
 
 @Component({
   selector: 'board-reply',

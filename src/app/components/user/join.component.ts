@@ -4,7 +4,7 @@ import { Component, Input, OnInit, Output, OnChanges, EventEmitter,
 import { UserService } from '../../services/user.service'
 import { LocalStorageService } from 'angular-2-local-storage'
 
-import { User } from '../../user'
+import { User } from '../../dtos/user'
 
 @Component({
   selector: 'join-dialog',

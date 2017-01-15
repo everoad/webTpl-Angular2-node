@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core'
 import { BoardService } from '../../services/board.service'
 import { IndexService } from '../../services/index.service'
-import { Board } from '../../board'
+import { Board } from '../../dtos/board'
 import { ActivatedRoute, Router, Params } from '@angular/router'
 
 import 'rxjs/add/operator/switchMap'

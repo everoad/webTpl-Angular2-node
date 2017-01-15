@@ -25,6 +25,7 @@ import { BoardComponent } from './components/board/board.component'
 import { BoardAddComponent } from './components/board/board-add.component'
 import { BoardEditComponent } from './components/board/board-edit.component'
 import { BoardDetailComponent } from './components/board/board-detail.component'
+import { BoardReplyComponent } from './components/board/board-reply.component'
 
 import { LoginComponent } from './components/user/login.component'
 import { JoinComponent } from './components/user/join.component'
@@ -41,6 +42,7 @@ import { HeaderComponent } from './components/templates/header/header.component'
     BoardAddComponent,
     BoardEditComponent,
     BoardDetailComponent,
+    BoardReplyComponent,
     LoginComponent,
     JoinComponent,
     HeaderComponent,

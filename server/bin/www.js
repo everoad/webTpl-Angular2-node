@@ -1,7 +1,6 @@
 // provided as part of the Google Cloud developer documentation
 
 "use strict"
-
 var app = require('../app')
 var debug = require("debug")("express:server")
 var http = require("http")

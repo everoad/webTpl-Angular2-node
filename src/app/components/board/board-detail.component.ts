@@ -5,8 +5,8 @@ import { EventService } from '../../services/event.service'
 import { BoardService } from '../../services/board.service'
 import { LocalStorageService } from 'angular-2-local-storage'
 
-import { User } from '../../user'
-import { Board } from '../../board'
+import { User } from '../../dtos/user'
+import { Board } from '../../dtos/board'
 
 import 'rxjs/add/operator/switchMap'
 
