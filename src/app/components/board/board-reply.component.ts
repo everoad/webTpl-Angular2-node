@@ -1,18 +1,25 @@
-import { Component, OnInit, Input } from '@angular/core'
+import { Component, OnInit, Input, Renderer } from '@angular/core'
 
 import { BoardService } from '../../services/board.service'
 import { LocalStorageService } from 'angular-2-local-storage'
 
 import { Reply } from '../../dtos/reply'
+import { User } from '../../dtos/user'
+
+
 
 @Component({
   selector: 'board-reply',
-  templateUrl: './board-reply.component.html'
+  templateUrl: './board-reply.component.html',
+  styles: [
+    'p { text-align: center }'
+  ]
 })
+
+
 
 export class BoardReplyComponent implements OnInit {
   
-
 
   @Input() boardSeq: string
   
@@ -20,10 +27,10 @@ export class BoardReplyComponent implements OnInit {
   replyOne: Reply
 
 
-
   constructor(
     private boardService: BoardService,
-    private ls: LocalStorageService
+    private ls: LocalStorageService,
+    private renderer: Renderer
   ) { }
 
   
@@ -33,7 +40,6 @@ export class BoardReplyComponent implements OnInit {
   ngOnInit(): void {
     this.replyAll = []
     this.replyOne = new Reply()
-
     this.boardService.getReplyAll(this.boardSeq)
       .then(json => this.replyAll = json)
   }
@@ -43,12 +49,11 @@ export class BoardReplyComponent implements OnInit {
 
 
   add(): void {
+    this.replyOne.board_seq = this.boardSeq
     this.boardService.addReply(this.replyOne)
       .then(json => {
-        if (json.result === 'success') {
-          this.replyAll.push(this.replyOne)
-          this.replyOne.content = ''
-        }
+        this.replyAll = json
+        this.renderer.selectRootElement('textarea').value = ''
       })
   }
 

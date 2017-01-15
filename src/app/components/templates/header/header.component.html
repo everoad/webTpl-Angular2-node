@@ -13,7 +13,7 @@
 
       <!-- Logo -->
       <div class="logo">
-        <a routerLink="/" routerLinkActive="active">
+        <a routerLink="/">
           <img id="logo-header" src="./assets/img/logo1-default.png" alt="Logo">
         </a>
       </div>
@@ -25,17 +25,16 @@
       <div class="menu-container">
         <ul class="nav navbar-nav">
           <li>
-            <a routerLink="/" routerLinkActive="active">
+            <a routerLink="/">
               Home
             </a>
           </li>
-          <li class="dropdown" *ngFor="let fir of menu">
-            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" routerLinkActive="active">{{fir.menu_fir_name}}</a>
+          <li class="dropdown" *ngFor="let fir of menu" routerLinkActive="active">
+            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">{{fir.menu_fir_name}}</a>
             <ul class="dropdown-menu">
-              <li *ngFor="let sec of fir.menu_sec">
+              <li *ngFor="let sec of fir.menu_sec" routerLinkActive="active">
                 <a [routerLink]="['board', sec.menu_fir_seq, sec.menu_sec_seq]"
-                   [queryParams]="{ index: 1 }" 
-                   routerLinkActive="active">{{ sec.menu_sec_name }}</a>
+                   [queryParams]="{ index: 1 }">{{ sec.menu_sec_name }}</a>
               </li>
             </ul>
           </li>

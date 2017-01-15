@@ -135,12 +135,18 @@ pool.getConnection().then((connection) => {
 
   exports.getReplyAll = (params, callback) => {
     var sql =
-      'SELECT * FROM reply WHERE board_seq = ?'
+      'SELECT content, reg_date, board_seq, DATE_FORMAT(reg_date, "%Y-%m-%d") reg_date, reply_seq, reply.user_email, user_nick ' +
+      'FROM reply ' +
+      'JOIN user ' +
+      'ON user.user_email = reply.user_email ' + 
+      'WHERE board_seq = ? ' +
+      'ORDER BY reply_seq DESC'
     
     connection.query(sql, params)
       .then(rows => callback(null, rows))
       .catch(err => callback(err, null))
   }
+
 
 
 
@@ -157,6 +163,7 @@ pool.getConnection().then((connection) => {
 
 
 
+
   exports.deleteReply = (params, callback) => {
     var sql =
       'DELETE FROM reply WHERE reply_seq = ?'
@@ -165,6 +172,31 @@ pool.getConnection().then((connection) => {
       .then(result => callback(null, result.affectedRows))
       .catch(err => callback(err, null))
   }
+
+
+
+
+  exports.replyCntUp = (params, callback) => {
+    var sql =
+      'UPDATE board SET reply_count = reply_count + 1 WHERE board_seq = ?'
+
+    connection.query(sql, params)
+      .then(result => callback(null, result.affectedRows))
+      .catch(err => callback(err, null))  
+  }
+
+
+
+
+  exports.replyCntDown = (params, callback) => {
+    var sql =
+      'UPDATE board SET reply_count = reply_count - 1 WHERE board_seq = ?'
+
+    connection.query(sql, params)
+      .then(result => callback(null, result.affectedRows))
+      .catch(err => callback(err, null))  
+  }
+
 
 
 

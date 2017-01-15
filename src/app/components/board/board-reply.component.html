@@ -7,13 +7,12 @@
   <div class="panel-body">
     <div *ngIf="!ls.get('user')">
       <p>로그인 후 사용해 주세요.</p>
-      <a href="/template/user/login">Login</a>
     </div>
 
     <label class="textarea" *ngIf="ls.get('user')">
       <textarea rows="3" cols="" [(ngModel)]="replyOne.content"></textarea>
     </label>
-    <div align="right">
+    <div align="right" *ngIf="ls.get('user')">
       <button (click)="add()" class="btn-u">완료</button>
     </div>
   </div>
@@ -21,11 +20,13 @@
     <div class="media media-v2" *ngFor="let one of replyAll">
       <div class="media-body">
       <h4 class="media-heading">
-        <strong><a href="#">one.user_nick</a></strong>
-        <small>one.reg_date</small>
+        <strong><a href="#">{{one.user_nick}}</a></strong>
+        <small>{{one.reg_date}}</small>
       </h4>
-      <pre>one.content</pre>
-      <button class="btn btn-default" (click)="delete(one)">삭제</button>
+      <pre>{{one.content}}</pre>
+      <button class="btn btn-default" 
+              (click)="delete(one)" 
+              *ngIf="ls.get('user') && ls.get('user').user_email === one.user_email">삭제</button>
       </div>
     </div>
   </div>

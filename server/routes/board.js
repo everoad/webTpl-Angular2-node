@@ -181,21 +181,45 @@ router.route('/reply')
 
 
 
-.post(security.isAuthenticated, (req, res) => {
+
+.post(security.isAuthenticated, (req, res, next) => {
+  var board_seq = req.body.board_seq
+  boardModel.replyCntUp([board_seq] ,(err, affectedRows) => {
+    if (err) { throw err }
+    if (affectedRows === 1) {
+      next()
+    }
+  })
+})
+
+.post((req, res) => {
   var content = req.body.content
   var user_email = req.user.user_email
   var board_seq = req.body.board_seq
   boardModel.addReply([content, user_email, board_seq], (err, insertId) => {
     if (err) { throw err } 
-    if (insertId === 1) {
-      res.send({ result: 'success' })
+    if (insertId) {
+      res.redirect('/api/board/reply?board_seq=' + board_seq)
     }
   })
 })
 
 
 
-.delete(security.preAuthorize, (req, res) => {
+
+
+
+.delete(security.preAuthorize, (req, res, next) => {
+  var board_seq = req.body.board_seq
+  boardModel.replyCntDown([board_seq], (err, affectedRows) => {
+    if (err) { throw err }
+    if (affectedRows === 1) {
+      next()
+    }
+  })
+})
+
+.delete((req, res) => {
   var reply_seq = req.body.reply_seq
   boardModel.deleteReply([reply_seq], (err, affectedRows) => {
     if (err) { throw err }
