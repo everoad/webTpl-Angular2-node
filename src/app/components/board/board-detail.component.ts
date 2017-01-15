@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core'
-import { ActivatedRoute, Params, Router, NavigationExtras } from '@angular/router'
+import { ActivatedRoute, Params, Router } from '@angular/router'
 
 import { EventService } from '../../services/event.service'
 import { BoardService } from '../../services/board.service'
@@ -52,6 +52,7 @@ export class BoardDetailComponent implements OnInit {
     })
 
     this.route.params.switchMap((p: Params) => {
+
       this.board.board_seq = p['board_seq']
       this.board.menu_fir_seq = p['menu_fir_seq']
       this.board.menu_sec_seq = p['menu_sec_seq']
@@ -67,10 +68,10 @@ export class BoardDetailComponent implements OnInit {
     
     this.ls.set('board_user_email', this.board.user_email)
     this.router.navigate([ 'board',
-                            this.board.menu_fir_seq,
-                            this.board.menu_sec_seq, 
-                            this.board.board_seq,
-                            'edit' ])
+                           this.board.menu_fir_seq,
+                           this.board.menu_sec_seq, 
+                           this.board.board_seq,
+                           'edit' ])
   
   }
 
@@ -85,13 +86,11 @@ export class BoardDetailComponent implements OnInit {
 
     this.boardService.delete(this.board)
       .then(json => {
-        if (json.result === 1) {
-          // let navigationExtras: NavigationExtras = {
-          //   queryParams: { index: this.index },
-          //   fragment: 'anchor'
-          // }
-
-          this.router.navigate(['board', this.board.menu_fir_seq, this.board.menu_sec_seq])
+        if (json.result === 'success') {
+          this.index = (this.index) ? this.index : 1
+          this.router.navigate([ 'board', 
+                                  this.board.menu_fir_seq, 
+                                  this.board.menu_sec_seq ], { queryParams: { index: this.index } } )
         }
       })
   }

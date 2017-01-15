@@ -34,6 +34,7 @@ exports.isAuthenticated = (req, res, next) => {
  * 메소드 실행 전 유저 권한 체크.
  */
 exports.preAuthorize = (req, res, next) => {
+
   if(req.user && (req.user.user_email === req.body.user_email)) {
     return next()
   }
@@ -46,12 +47,14 @@ exports.preAuthorize = (req, res, next) => {
 /**
  * 메소드 실행 후 유저 권한 체크.
  */
-exports.postAuthorize = (req, res, next) => {
+exports.postAuthorize = (req, res) => {
   let result = req.result
 
-  if(!req.user && !(req.user.user_email === req.body.user_email)) {
-    res.send({ result: DENY })
+  if(!req.user && !(req.user.user_email === result.user_email)) {
+    return res.send({ result: DENY })
   }
+
+  res.send(result)
 }
 
 

@@ -4,6 +4,7 @@
 var app = require('../app')
 var debug = require("debug")("express:server")
 var http = require("http")
+var socketio = require('socket.io')
 
 var port = normalizePort(process.env.PORT || 3000)
 app.set("port", port)
@@ -19,6 +20,15 @@ server.on("error", onError)
 //start listening on port
 server.on("listening", onListening)
 
+
+//socket.io
+var io = socketio.listen(server)
+
+io.sockets.on('connection', (socket) => {
+  socket.on('message', (message) => {
+    io.sockets.emit('message', message)
+  })
+})
 
 function normalizePort(val) {
   var port = parseInt(val, 10)

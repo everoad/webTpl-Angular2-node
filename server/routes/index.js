@@ -50,7 +50,7 @@ router.get('/', (req, res) => {
 router.get('/menu', (req, res) => {
   var promise = new Promise((resolve, reject) => {
     indexModel.getMenuFir((err, menuFir) => {
-      if (err) { return resolve(err) }
+      if (err) { return reject(err) }
       resolve(menuFir)
     })
   })
@@ -72,7 +72,7 @@ router.get('/menu', (req, res) => {
 router.get('/main', (req, res) => {
   var promise = new Promise((resolve, reject) => {
     indexModel.getMenuFir((err, menuFir) => {
-      if (err) { throw err }
+      if (err) { return  reject(err) }
       resolve(menuFir)
     })
   })

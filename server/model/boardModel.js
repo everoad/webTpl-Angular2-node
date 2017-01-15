@@ -114,6 +114,57 @@ pool.getConnection().then((connection) => {
       .catch((err) => callback(err, null))
   }
 
+  
+
+  
+  /**
+   * Up hit.
+   * @param {string} board_seq
+   */
+  exports.hitUp = (params, callback) => {
+    var sql =
+      'UPDATE board SET hit_count = hit_count + 1 WHERE board_seq = ?'
+
+    connection.query(sql, params)
+      .then(result => callback(null, result.affectedRows))
+      .catch(err => callback(err, null))
+  }
+
+
+  
+
+  exports.getReplyAll = (params, callback) => {
+    var sql =
+      'SELECT * FROM reply WHERE board_seq = ?'
+    
+    connection.query(sql, params)
+      .then(rows => callback(null, rows))
+      .catch(err => callback(err, null))
+  }
+
+
+
+  exports.addReply = (params, callback) => {
+    var sql =
+      'INSERT INTO reply(content, user_email, reg_date, board_seq) ' +
+      'VALUES (?, ?, now(), ?)'
+
+    connection.query(sql, params)
+      .then(result => callback(null, result.insertId))
+      .catch(err => callback(err, null))
+
+  }
+
+
+
+  exports.deleteReply = (params, callback) => {
+    var sql =
+      'DELETE FROM reply WHERE reply_seq = ?'
+
+    connection.query(sql, params)
+      .then(result => callback(null, result.affectedRows))
+      .catch(err => callback(err, null))
+  }
 
 
 

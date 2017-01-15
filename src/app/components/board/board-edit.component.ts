@@ -22,15 +22,14 @@ export class BoardEditComponent implements OnInit {
     private indexService: IndexService,
     private route: ActivatedRoute,
     private router: Router
-  ) {
-    this.board = new Board()
-  }
+  ) { }
 
 
 
   ngOnInit() {
     this.content = document.getElementById('content')
-
+    this.board = new Board()
+    
     this.route.params.switchMap((p: Params) => {
       this.board.board_seq = p['board_seq']
       this.board.menu_fir_seq = p['menu_fir_seq']

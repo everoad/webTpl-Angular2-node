@@ -17,7 +17,8 @@ export class BoardComponent implements OnInit {
 
   boards: Board[]
   indexArr: number[]
-  
+  index: number
+
   skey: string
   stype: string
  
@@ -47,11 +48,12 @@ export class BoardComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(p => {
-      this.pagination(p['index'])
+      this.index = p['index']
+      this.pagination(this.index)
     })
   }
 
-
+ 
   /**
    * Pagination.
    * @param  {number} index

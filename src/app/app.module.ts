@@ -31,7 +31,7 @@ import { LoginComponent } from './components/user/login.component'
 import { JoinComponent } from './components/user/join.component'
 
 import { HeaderComponent } from './components/templates/header/header.component'
-
+import { ChatComponent } from './components/chat/chat.component'
 
 
 @NgModule({
@@ -46,6 +46,7 @@ import { HeaderComponent } from './components/templates/header/header.component'
     LoginComponent,
     JoinComponent,
     HeaderComponent,
+    ChatComponent,
     SafeHtmlPipe
   ],
   imports: [

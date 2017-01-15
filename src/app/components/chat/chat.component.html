@@ -1,6 +1,9 @@
-<div  [@dialog] *ngIf="visible" class="dialog">
+<div  [@dialog] *ngIf="visible" class="dialog" (drag)="move($event)">
 	<button *ngIf="closable" (click)="close()" aria-label="Close" class="dialog__close-btn">X</button>
-
-
+    <input type="text" [(ngModel)]="txt" name="txt" value="">
+    <button (click)="sendMsg()">전송</button>
+    <dl>
+      <dd *ngFor="let msg of msgAll">{{msg}}</dd>
+    </dl>
   </div>
 <div *ngIf="visible" class="overlay" (click)="close()"></div>

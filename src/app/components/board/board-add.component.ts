@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnInit } from '@angular/core'
+import { Component, ViewEncapsulation, OnInit, Renderer } from '@angular/core'
 import { BoardService } from '../../services/board.service'
 import { IndexService } from '../../services/index.service'
 import { Board } from '../../dtos/board'
@@ -9,7 +9,8 @@ import 'rxjs/add/operator/switchMap'
 @Component({
   moduleId: module.id + '',
   templateUrl: './board-add.component.html',
-  styleUrls: ['./board-add.component.css']
+  styleUrls: ['./board-add.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class BoardAddComponent implements OnInit {
@@ -28,7 +29,8 @@ export class BoardAddComponent implements OnInit {
     private boardService: BoardService,
     private indexService: IndexService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private renderer: Renderer
   ) {
   }
   
@@ -37,7 +39,6 @@ export class BoardAddComponent implements OnInit {
     this.board = new Board()
     this.content = document.getElementById('content')
   }
-
 
  
   /**
@@ -65,7 +66,7 @@ export class BoardAddComponent implements OnInit {
    */
   upload(event) {
     var file: File = event.target.files[0]
-    if (file.type !== 'image/jpeg' && file.type !== 'image/git' && file.type !== 'image/png') {
+    if (file.type !== 'image/jpeg' && file.type !== 'image/gif' && file.type !== 'image/png') {
       return alert('이미지 파일이 아닙니다.')
     }
     this.indexService.uploadImg(file)
@@ -74,6 +75,7 @@ export class BoardAddComponent implements OnInit {
         elem.setAttribute('src', 'api/public/uploads/' + json.uploadFileName)
         elem.setAttribute('alt', json.originalFileName)
         this.content.appendChild(elem)
+        
       })
   }
 }

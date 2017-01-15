@@ -5,6 +5,7 @@ var passport = require('passport')
 
 var sha256 = require('sha256')
 var userModel = require('../model/userModel')
+var security = require('../auth/my-security')
 
 
 /**
@@ -12,11 +13,12 @@ var userModel = require('../model/userModel')
  * @param {string} user_email
  * @param {string} user_pwd
  */
-router.post('/login',
+router.post('/login', security.isAnonymous,
   passport.authenticate('local', { successRedirect: '/api/auth/login/success',
                                   failureRedirect: '/api/auth/login/fail',
                                   failureFlash: false })
 )
+
 
 
 /**
@@ -31,6 +33,8 @@ router.get('/login/success', (req ,res) => {
 })
 
 
+
+
 /**
  * Login Fail.
  */
@@ -40,16 +44,17 @@ router.get('/login/fail', (req ,res) => {
 
 
 
+
 /**
  * Logout.
  */
 router.get('/logout', (req, res) => {
-  console.log('logout')
   req.logout()
   req.session.save(() => {
     res.send({ result: 'success' })
   })
 })
+
 
 
 
@@ -60,7 +65,7 @@ router.get('/logout', (req, res) => {
  * @param {string} user_nick
  * @param {string} user_pwd
  */
-router.post('/join', (req, res, next) => {
+router.post('/join', security.isAnonymous, (req, res, next) => {
   var userEmail = req.body.user_email
   var userNick = req.body.user_nick
   var userPwd = sha256(req.body.user_pwd)
@@ -75,11 +80,11 @@ router.post('/join', (req, res, next) => {
 router.post('/join', (req, res) => {
   var userEmail = req.userEmail
   userModel.getOne([userEmail], (err, user) => {
-    console.log(user)
     req.logIn(user, (err) => {
       if (err) { throw err }
-      res.redirect('/api/auth/login/success')
-     
+      req.session.save(() => {
+        res.redirect('/api/auth/login/success')
+      })
     })
   })
 })

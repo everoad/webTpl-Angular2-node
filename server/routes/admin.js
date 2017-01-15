@@ -2,7 +2,11 @@ var express = require('express')
 var router = express.Router()
 
 var adminModel = require('../model/adminModel')
+var security = require('../auth/my-security')
 
+
+
+router.use(security.isAdmin)
 
 
 router.route('/menu')

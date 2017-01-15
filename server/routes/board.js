@@ -4,12 +4,11 @@ var boardModel = require('../model/boardModel')
 var HTML = require('html-parse-stringify')
 
 
+var security = require('../auth/my-security')
+
 
 router.route('/:menu_fir_seq/:menu_sec_seq')
-.all((req, res, next) => {
 
-  next()
-})
 
 /**
  * Returns list of content & pagination data.
@@ -20,6 +19,7 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
  * @param {string} skey
  */
 .get((req, res) => {
+
   let data = JSON.parse(req.query.data)
   var index = data.index
   var stype = data.stype
@@ -35,6 +35,7 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
     })
   })
   .then((total) => {
+
     var dataPerPage = 12
     var totalPage = Math.ceil(total / dataPerPage)
 
@@ -63,13 +64,15 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
  * @param {string} content
  * @param {string} user_email
  */
-.post(isAuthenticated, (req, res) => {
+.post(security.isAuthenticated, (req, res) => {
+
   var firSeq = req.body.menu_fir_seq
   var secSeq = req.body.menu_sec_seq
   var title = req.body.title
   var content = req.body.content
   var userEmail = req.user.user_email
   var frontImg
+
   for (let tag of HTML.parse(content)) {
     if (tag.name === 'img') {
       frontImg = tag.attrs.src
@@ -90,11 +93,13 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
  * @param {string} title
  * @param {string} content
  */
-.put(isAuthenticated, (req, res) => {
+.put(security.preAuthorize, (req, res) => {
+
   var boardSeq = req.body.board_seq
   var title = req.body.title
   var content = req.body.content
   var frontImg
+
   for (let tag of HTML.parse(content)) {
     if (tag.name === 'img') {
       frontImg = tag.attrs.src
@@ -113,13 +118,20 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
  * Delete content & Returns affectedRows.
  * @param {string} board_seq
  */
-.delete((req, res) => {
+.delete(security.preAuthorize, (req, res) => {
+
   var boardSeq = req.body.board_seq
+
   boardModel.delete([boardSeq], (err, affectedRows) => {
     if (err) { throw err }
-    res.send({ result: affectedRows })
+    if (affectedRows === 1) {
+      res.send({ result: 'success' })
+    } else {
+      res.send({ result: 'fail' })
+    }
   })
 })
+
 
 
 
@@ -127,28 +139,71 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
  * Returns a content's detail.
  * @param {string} board_seq
  */
-router.get('/:menu_fir_seq/:menu_sec_seq/:board_seq', (req, res) => {
+router.get('/:menu_fir_seq/:menu_sec_seq/:board_seq', (req, res, next) => {
+
   var seq = req.params.board_seq
+
+  boardModel.hitUp([seq], (err, affectedRows) => {
+    if (err) { throw err }
+    if (affectedRows === 1) {
+      next()
+    }
+  })
+
+})
+router.get('/:menu_fir_seq/:menu_sec_seq/:board_seq', (req, res) => {
+  
+  var seq = req.params.board_seq
+
   boardModel.getOne([seq], (err, row) => {
     if (err) { throw err }
     res.send(row)
   })
+  
 })
 
 
 
 
-/**
- * 로그인 여부 확인.
- */
-function isAuthenticated(req, res, next) {
 
-  console.log(req, res, next)
-  
-  return next()
-  
-  
-}
+router.route('/reply')
+
+
+
+.get((req, res) => {
+  var board_seq = req.query.board_seq
+
+  boardModel.getReplyAll([board_seq], (err, rows) => {
+    if (err) { throw err }
+    res.send(rows)
+  })
+})
+
+
+
+.post(security.isAuthenticated, (req, res) => {
+  var content = req.body.content
+  var user_email = req.user.user_email
+  var board_seq = req.body.board_seq
+  boardModel.addReply([content, user_email, board_seq], (err, insertId) => {
+    if (err) { throw err } 
+    if (insertId === 1) {
+      res.send({ result: 'success' })
+    }
+  })
+})
+
+
+
+.delete(security.preAuthorize, (req, res) => {
+  var reply_seq = req.body.reply_seq
+  boardModel.deleteReply([reply_seq], (err, affectedRows) => {
+    if (err) { throw err }
+    if (affectedRows === 1) {
+      res.send({ result: 'success' })
+    }
+  })
+})
 
 
 module.exports = router

@@ -34,14 +34,14 @@ export class JoinComponent {
 
   constructor(
     private userService: UserService,
-    private localStorage: LocalStorageService
+    private ls: LocalStorageService
   ) { }
 
   submit(event) {
     this.userService.join(this.user)
       .then(json => {
         if(json.result === 'success') {
-          this.localStorage.set('user', json.user)
+          this.ls.set('user', json.user)
           this.close()
         } else {
           alert('fail')

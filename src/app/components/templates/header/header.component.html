@@ -48,6 +48,8 @@
 				</ul>
         <ul class="list-inline header-socials" *ngIf="localStorage.get('user')">
           <p class="copyright-text" [innerText]="localStorage.get('user').user_email + '님, 반갑습니다.'"></p>
+          <a (click)="showChatDialog = !showChatDialog" class="btn btn-default btn-sm">Chatting</a>
+          <chat-dialog [(visible)]="showChatDialog"></chat-dialog>
           <a (click)="logout()" class="btn btn-default btn-sm">Logout</a>
 				</ul>
         <p class="copyright-text">&copy; 2015 Unify. All Rights Reserved.</p>

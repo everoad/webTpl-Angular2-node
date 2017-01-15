@@ -34,7 +34,8 @@ export class LoginComponent implements OnInit {
 
   user: User
   message: string
-  
+
+
   constructor(
     private eventService: EventService,
     private userService: UserService,
@@ -56,7 +57,7 @@ export class LoginComponent implements OnInit {
   submit(event) {
     this.userService.login(this.user)
       .then(json => {
-
+  
         if (json.result === 'success') {
 
           this.ls.set('user', json.user)
