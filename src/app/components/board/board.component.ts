@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewEncapsulation, Renderer } from '@angular/core'
-
 import { ActivatedRoute, Params, Router } from '@angular/router'
+
 import { BoardService } from '../../services/board.service'
 import { Board } from '../../dtos/board'
+
 import 'rxjs/add/operator/switchMap'
 
 
@@ -22,20 +23,6 @@ export class BoardComponent implements OnInit {
 
   previous: number
   next: number
-  options: [
-    {
-      value: 'title',
-      name: 'Title'
-    },
-    {
-      value: 'content',
-      name: 'Content'
-    },
-    {
-      value: 'user_nick',
-      name: 'Author'
-    }
-  ]
 
   menu_fir_seq: string
   menu_sec_seq: string
@@ -64,7 +51,7 @@ export class BoardComponent implements OnInit {
 
     this.route.queryParams.subscribe(p => {
       this.index = p['index']
-      this.pagination(this.index)
+      this.pagination(p['index'], p['stype'], p['skey'])
     })
   }
 
@@ -85,7 +72,7 @@ export class BoardComponent implements OnInit {
       queryParams['skey'] = skeyVal
       queryParams['stype'] = stypeVal
     }
-    console.log(queryParams)
+
     this.router.navigate([ 'board',
                            this.menu_fir_seq,
                            this.menu_sec_seq ], 
@@ -95,14 +82,16 @@ export class BoardComponent implements OnInit {
 
 
 
-  pagination(index: number): void {
+  pagination(index: number, stype: string, skey: string): void {
     
     this.route.params.switchMap((p: Params) => {
       this.menu_fir_seq = p['menu_fir_seq']
       this.menu_sec_seq = p['menu_sec_seq']
       return this.boardService.getAll({ menu_fir_seq: this.menu_fir_seq,
-                                         menu_sec_seq: this.menu_sec_seq },
-                                       { index: index })
+                                        menu_sec_seq: this.menu_sec_seq },
+                                      { skey: skey,
+                                        stype: stype,
+                                        index: index })
 
     }).subscribe(json => {
       this.boards = json['boards']

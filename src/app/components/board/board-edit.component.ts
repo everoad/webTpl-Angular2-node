@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer } from '@angular/core'
+import { Component, OnInit, Renderer, ViewEncapsulation } from '@angular/core'
 import { Router, ActivatedRoute, Params } from '@angular/router'
 import { BoardService } from '../../services/board.service'
 import { IndexService } from '../../services/index.service'
@@ -6,7 +6,9 @@ import { Board } from '../../dtos/board'
 
 @Component({
   moduleId: module.id + '',
-  templateUrl: './board-edit.component.html'
+  templateUrl: './board-edit.component.html',
+  styleUrls: ['./board-add.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 
 
@@ -43,6 +45,7 @@ export class BoardEditComponent implements OnInit {
 
 
   submit() {
+    this.board.content = this.content.innerHTML
     this.boardService.edit(this.board)
       .then(json => {
         if (json.result === 'success') {

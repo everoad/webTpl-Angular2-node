@@ -1,7 +1,11 @@
 <div class="container">
   <div class="content col-md-11">
     <div class="menu" *ngFor="let fir of boards">
-      <h1><a [routerLink]="['board', fir.menu_fir_seq, fir.menu_sec[0].menu_sec_seq]" class="custom-headline">{{fir.menu_fir_name}}</a></h1>
+      <h1>
+        <a [routerLink]="['board', fir.menu_fir_seq, fir.menu_sec[0].menu_sec_seq]" 
+           [queryParams]="{ index: 1 }"
+           class="custom-headline">{{fir.menu_fir_name}}</a>
+      </h1>
       <br />
       <table class="table">
         <tr>
@@ -13,7 +17,7 @@
         </tr>
         
         <tr *ngFor="let sec of fir.menu_sec">
-          <td><a [routerLink]="['board', sec.menu_fir_seq, sec.menu_sec_seq]" routerLinkActive="active">{{sec.menu_sec_name}}</a></td>
+          <td><a [routerLink]="['board', sec.menu_fir_seq, sec.menu_sec_seq]" [queryParams]="{ index: 1 }" routerLinkActive="active">{{sec.menu_sec_name}}</a></td>
           <td><a [routerLink]="['board', sec.menu_fir_seq, sec.menu_sec_seq, sec.board_seq]" routerLinkActive="active">{{sec.title}}</a> ({{sec.reply_count}})</td>
           <td>{{sec.user_nick}}</td>
           <td>{{sec.reg_date}}</td>

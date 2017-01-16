@@ -18,39 +18,43 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
  * @param {string} stype
  * @param {string} skey
  */
-.get((req, res) => {
+.get((req, res, next) => {
 
+  let data = JSON.parse(req.query.data)
+  var stype = data.stype
+  var skey = data.skey
+  var fir = req.params.menu_fir_seq
+  var sec = req.params.menu_sec_seq
+
+  boardModel.getTotalDataNum([fir, sec, stype, skey], (err, row) => {
+    if (err) { throw err }
+    req.total = row.total
+    next()
+  })
+})
+ 
+
+.get((req, res) => {
   let data = JSON.parse(req.query.data)
   var index = data.index
   var stype = data.stype
   var skey = data.skey
   var fir = req.params.menu_fir_seq
   var sec = req.params.menu_sec_seq
+  var total = req.total
 
-  var promise = new Promise((resolve, reject) => {
-    boardModel.getTotalDataNum([fir, sec, stype, skey], (err, row) => {
-      if (err) { return reject(err) }
+  var dataPerPage = 12
+  var totalPage = Math.ceil(total / dataPerPage)
+  totalPage = (totalPage === 0) ? 1 : totalPage
+  index = (index < 1) ? 1 : index
+  index = (index > totalPage) ? totalPage : index
+  var start = (index - 1) * dataPerPage
 
-      resolve(parseInt(row.total)) 
-    })
+  boardModel.getAll([fir, sec, start, dataPerPage, stype, skey], (err, rows) => {
+    if (err) { throw err }
+
+    res.send({ boards: rows, total: total, dataPerPage: dataPerPage, totalPage: totalPage })
   })
-  .then((total) => {
-
-    var dataPerPage = 12
-    var totalPage = Math.ceil(total / dataPerPage)
-
-    totalPage = (totalPage === 0) ? 1 : totalPage
-    index = (index < 1) ? 1 : index
-    index = (index > totalPage) ? totalPage : index
-    var start = (index - 1) * dataPerPage
-
-    boardModel.getAll([fir, sec, start, dataPerPage, stype, skey], (err, rows) => {
-      if (err) { throw err }
-
-      res.send({ boards: rows, total: total, dataPerPage: dataPerPage, totalPage: totalPage })
-    })
-  }).catch(err => { throw err })
-
 })
 
 
@@ -151,6 +155,7 @@ router.get('/:menu_fir_seq/:menu_sec_seq/:board_seq', (req, res, next) => {
   })
 
 })
+
 router.get('/:menu_fir_seq/:menu_sec_seq/:board_seq', (req, res) => {
   
   var seq = req.params.board_seq

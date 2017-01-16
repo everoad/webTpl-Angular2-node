@@ -25,11 +25,8 @@ router.post('/login', security.isAnonymous,
  * Login Success.
  */
 router.get('/login/success', (req ,res) => {
-  res.send(
-    { 
-      result: 'success',
-      user : req.user
-    })
+  res.send({ result: 'success',
+             user : req.user })
 })
 
 

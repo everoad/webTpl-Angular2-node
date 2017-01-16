@@ -29,12 +29,13 @@ app.use('/api', index)
 /**
  * ErrorHandler
  */
-app.use((err, req, res, next) => {
+app.use(function(err, req, res, next) {
   if (err) {
     console.error(`${err.name} : ${err.message}`)
   }
   //처리..
 })
+
 
 
 module.exports = app

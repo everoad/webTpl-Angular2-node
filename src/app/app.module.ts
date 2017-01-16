@@ -49,6 +49,7 @@ import { ChatComponent } from './components/chat/chat.component'
     ChatComponent,
     SafeHtmlPipe
   ],
+
   imports: [
     BrowserModule,
     FormsModule,
@@ -59,6 +60,7 @@ import { ChatComponent } from './components/chat/chat.component'
       storageType: 'sessionStorage'
     })
   ],
+  
   providers: [
     IndexService,
     BoardService, 

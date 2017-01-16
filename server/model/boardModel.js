@@ -16,7 +16,9 @@ pool.getConnection().then((connection) => {
       'JOIN menu_sec ' +
       'ON board.menu_sec_seq = menu_sec.menu_sec_seq ' +
       'WHERE board.menu_fir_seq = ? ' +
-      'AND board.menu_sec_seq = ? ' +
+      'AND board.menu_sec_seq = ? '
+    sql = attachSql(sql, params[4], params[5])
+    sql += 
       'ORDER BY board_seq DESC ' +
       'LIMIT ?, ?'
 
@@ -37,6 +39,7 @@ pool.getConnection().then((connection) => {
       'SELECT count(*) total FROM board ' +
       'WHERE board.menu_fir_seq = ? ' +
       'AND board.menu_sec_seq = ? '
+    sql = attachSql(sql, params[2], params[3])
 
     connection.query(sql, params)
       .then(rows => callback(null, rows[0]))
@@ -197,6 +200,13 @@ pool.getConnection().then((connection) => {
       .catch(err => callback(err, null))  
   }
 
+  
+  function attachSql(sql, stype, skey) {
+    if (skey && stype) {
+     sql += `AND ${stype} LIKE ` + connection.escape('%'+skey+'%')
+    }
+    return sql
+  }
 
 
 

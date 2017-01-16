@@ -50,7 +50,7 @@ pool.getConnection().then((connection) => {
       'WHERE board.menu_fir_seq = ? ' +
       'ORDER BY board_seq DESC ' +
       'LIMIT 0, 5'
-    
+
     connection.query(sql, params)
       .then(rows => callback(null, rows))
       .catch(err => callback(err, null))

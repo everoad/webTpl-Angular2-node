@@ -4,6 +4,8 @@ import { EventService } from '../services/event.service'
 
 import { LoginComponent } from './user/login.component'
  
+
+ 
 @Component({
   moduleId: module.id + '',
   templateUrl: './main.component.html',

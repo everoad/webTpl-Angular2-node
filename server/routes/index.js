@@ -44,17 +44,24 @@ router.get('/', (req, res) => {
 })
 
 
+
+
+
 /**
  * Returns lists of menu.
  */
-router.get('/menu', (req, res) => {
-  var promise = new Promise((resolve, reject) => {
-    indexModel.getMenuFir((err, menuFir) => {
-      if (err) { return reject(err) }
-      resolve(menuFir)
-    })
+router.get('/menu', (req, res, next) => {
+  
+  indexModel.getMenuFir((err, menuFir) => {
+    if (err) { throw err }
+    req.menuFir = menuFir
+    next()
   })
-  promise.then(menuFir => menuFir.map((fir, index) => {
+})
+
+router.get('/menu', (req, res) => {
+  var menuFir = req.menuFir
+  menuFir.map((fir, index) => {
     indexModel.getMenuSec([fir.menu_fir_seq], (err, menuSec) => {
       if (err) { throw err }
       fir['menu_sec'] = menuSec
@@ -62,21 +69,29 @@ router.get('/menu', (req, res) => {
         res.send(menuFir)
       }
     })
-  })).catch(err => { throw err })
+  })
 })
+
+
+
+
 
 
 /**
  * Returns lists of main.
  */
-router.get('/main', (req, res) => {
-  var promise = new Promise((resolve, reject) => {
-    indexModel.getMenuFir((err, menuFir) => {
-      if (err) { return  reject(err) }
-      resolve(menuFir)
-    })
+router.get('/main', (req, res, next) => {
+ 
+  indexModel.getMenuFir((err, menuFir) => {
+    if (err) { throw err }
+    req.menuFir = menuFir
+    next()
   })
-  promise.then(menuFir => menuFir.map((fir, index) => {
+})
+
+router.get('/main', (req, res) => {
+  var menuFir = req.menuFir
+  menuFir.map((fir, index) => {
     indexModel.getMainAll([fir.menu_fir_seq], (err, boards) => {
       if (err) { throw err }
       fir['menu_sec'] = boards
@@ -84,8 +99,10 @@ router.get('/main', (req, res) => {
         res.send(menuFir)
       }
     })
-  }))
+  })
 })
+
+
 
 
 

@@ -1,4 +1,5 @@
 export class Board {
+  
   board_seq: string
   title: string
   content: string
