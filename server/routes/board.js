@@ -88,7 +88,7 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
 
 
 /**
- * Edit content & returns affectedRows.
+ * Edit content & Returns affectedRows.
  * @param {string} board_seq
  * @param {string} title
  * @param {string} content

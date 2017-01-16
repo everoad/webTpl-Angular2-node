@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core'
+import { Component, OnInit, EventEmitter, Input } from '@angular/core'
 
 import { Router } from '@angular/router'
 
@@ -7,6 +7,7 @@ import { UserService } from '../../../services/user.service'
 import { LocalStorageService } from 'angular-2-local-storage'
 
 import { User } from '../../../dtos/user'
+import { Observable } from 'rxjs/Observable'
 
 
 @Component({
@@ -18,7 +19,7 @@ import { User } from '../../../dtos/user'
 export class HeaderComponent implements OnInit {
   
   menu = []
-  
+
   constructor(
     private indexService: IndexService,
     private userService: UserService,
@@ -32,6 +33,7 @@ export class HeaderComponent implements OnInit {
     this.indexService.getMenu()
       .then(menu => this.menu  = menu)
   }
+
 
 
   logout() {

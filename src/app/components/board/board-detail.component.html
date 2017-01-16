@@ -20,7 +20,9 @@
           </div>
           <div class="detail" [innerHTML]="board.content | safeHtml"></div>
           <div align="right" class="testimonials-info">
-            <h5><a [routerLink]="['/board', board.menu_fir_seq, board.menu_sec_seq]" routerLinkActive="active"><i class="icon-list"></i>목록</a></h5>
+            <h5>
+              <a [routerLink]="['/board', board.menu_fir_seq, board.menu_sec_seq]"><i class="icon-list"></i>목록</a>
+            </h5>
           </div>
         </div>
         <board-reply [(boardSeq)]="board.board_seq"></board-reply>

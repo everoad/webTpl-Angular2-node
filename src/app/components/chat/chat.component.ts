@@ -1,11 +1,13 @@
 import { Component, Input, OnInit, Output,  EventEmitter, OnChanges, SimpleChanges,
-          trigger, state, style, animate, transition, Renderer, ElementRef } from '@angular/core'
+          trigger, state, style, animate, transition, Renderer } from '@angular/core'
 
 import { LocalStorageService } from 'angular-2-local-storage'
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router'
 
 import { User } from '../../dtos/user'
 import * as io from 'socket.io-client'
+import { Observable } from 'rxjs/Observable'
+
 declare var $: JQueryStatic
 
 
@@ -28,21 +30,32 @@ declare var $: JQueryStatic
 
 
 
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnChanges {
   
-  @Input() closable = true
-  @Input() visible: boolean
-  @Output() visibleChange: EventEmitter<boolean> = new EventEmitter<boolean>()
 
+  @Input() closable
+  @Input() visible: boolean = false
+  @Output() visibleChange: EventEmitter<boolean>
+  
   txt: string
   socket
-  msgAll: string[] = []
+  msgAll: string[]
+
+
 
   constructor(
-    private localStorage: LocalStorageService,
-    private renderer: Renderer,
-    private elementRef: ElementRef
-  ) { }
+    private ls: LocalStorageService,
+    private renderer: Renderer
+
+  ) {
+    this.visibleChange = new EventEmitter<boolean>()
+    this.closable = true
+    this.msgAll = []
+  }
+
+
+
+
 
   ngOnInit() {
     this.socket = io.connect('http://localhost:3000')
@@ -51,15 +64,27 @@ export class ChatComponent implements OnInit {
     })
   }
 
+  ngOnChanges(change: SimpleChanges) {
+    if (typeof change['visible'].currentValue !== 'boolean'
+        && typeof change['visible'].previousValue !== 'boolean') {
+        return
+    }
+    if (change['visible'].currentValue !== change['visible'].previousValue) {
+      setTimeout(() => {
+        $('.dialog').draggable()
+      })
+    }
+  }
 
+  
   sendMsg() {
-    this.socket.emit('message', this.txt)
+    this.socket.emit('message', (<User> this.ls.get('user')).user_nick + " :" + this.txt)
     this.txt = ''
   }
 
 
+
   close() {
-    this.visible = false
-    this.visibleChange.emit(this.visible)
+    this.visibleChange.emit(false)
   }
 }

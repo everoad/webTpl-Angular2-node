@@ -1,9 +1,13 @@
-<div  [@dialog] *ngIf="visible" class="dialog" (drag)="move($event)">
+<div  [@dialog] *ngIf="visible" class="dialog">
 	<button *ngIf="closable" (click)="close()" aria-label="Close" class="dialog__close-btn">X</button>
+
+  <div class="sky-form">
     <input type="text" [(ngModel)]="txt" name="txt" value="">
-    <button (click)="sendMsg()">전송</button>
+    <button (click)="sendMsg()" class="btn btn-u">전송</button>
     <dl>
-      <dd *ngFor="let msg of msgAll">{{msg}}</dd>
+      <dd *ngFor="let msg of msgAll" [innerHTML]="msg | safeHtml"></dd>
     </dl>
   </div>
+</div>
+ 
 <div *ngIf="visible" class="overlay" (click)="close()"></div>

@@ -53,29 +53,26 @@
   <div class="text-center">
     <ul class="pagination">
       <li>
-        <a [routerLink]="" 
-           [queryParams]="{ index: previous }">&laquo;</a>
+        <a (click)="navigating(previous)">&laquo;</a>
       </li>
       <li *ngFor="let i of indexArr" routerLinkActive="active">
-        <a [routerLink]="" 
-           [queryParams]="{ index: i }" 
-           >{{i}}</a>
+        <a (click)="navigating(i)">{{i}}</a>
       </li>
       <li>
-        <a [routerLink]="" 
-           [queryParams]="{ index: next }">&raquo;</a>
+        <a (click)="navigating(next)">&raquo;</a>
       </li>
     </ul>
-    <form class="form form-inline">
-      <div class="searchbox" align="center">
-        <select name="stype" [(ngModel)]="stype" class="form-control">
+  </div>
+    <div>
+      <form class="form form-inline">
+        <select id="stype" class="form-control">
+          <option>Please Select</option>
           <option value="title">Title</option>
           <option value="content">Content</option>
           <option value="user_nick">Author</option>
         </select>
-        <input type="text" [(ngModel)]="skey" name="skey" class="form-control" value="" placeholder="Search">
-        <input type="button" value="검색" class="btn btn-u">
-      </div>
-    </form>
-  </div>
+        <input type="text" id="skey" name="skey" class="form-control" placeholder="Search">
+        <input type="button" (click)="navigating(1)" value="검색" class="btn btn-u">
+      </form>
+    </div>
 </div>

@@ -15,8 +15,11 @@ import 'rxjs/add/operator/switchMap'
 
 export class BoardAddComponent implements OnInit {
   
+
+
   board: Board
   content: HTMLElement
+
 
 
   /**
@@ -31,16 +34,19 @@ export class BoardAddComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private renderer: Renderer
-  ) {
-  }
+  ) { }
   
+
+
 
   ngOnInit() {
     this.board = new Board()
-    this.content = document.getElementById('content')
+    this.content = this.renderer.selectRootElement('#content')
   }
 
  
+
+
   /**
    * Submit content.
    */
@@ -60,6 +66,7 @@ export class BoardAddComponent implements OnInit {
 
 
 
+
   /**
    * Upload a image.
    * @param {Event} event
@@ -71,11 +78,11 @@ export class BoardAddComponent implements OnInit {
     }
     this.indexService.uploadImg(file)
       .then(json => {
-        let elem = document.createElement('img')
-        elem.setAttribute('src', 'api/public/uploads/' + json.uploadFileName)
-        elem.setAttribute('alt', json.originalFileName)
-        this.content.appendChild(elem)
-        
+        let elem = this.renderer.createElement(this.content, 'img')
+        this.renderer.setElementAttribute(elem, 'src', 'api/public/uploads/' + json.uploadFileName)
+        this.renderer.setElementAttribute(elem, 'alt', json.originalFileName)
       })
   }
+
+  
 }

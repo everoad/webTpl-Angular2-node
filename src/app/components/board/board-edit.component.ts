@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, Renderer } from '@angular/core'
 import { Router, ActivatedRoute, Params } from '@angular/router'
 import { BoardService } from '../../services/board.service'
 import { IndexService } from '../../services/index.service'
@@ -21,13 +21,14 @@ export class BoardEditComponent implements OnInit {
     private boardService: BoardService,
     private indexService: IndexService,
     private route: ActivatedRoute,
+    private renderer: Renderer,
     private router: Router
   ) { }
 
 
 
   ngOnInit() {
-    this.content = document.getElementById('content')
+    this.content = this.renderer.selectRootElement('#content')
     this.board = new Board()
     
     this.route.params.switchMap((p: Params) => {
@@ -57,14 +58,12 @@ export class BoardEditComponent implements OnInit {
     var file: File = event.target.files[0]
     if (file.type !== 'image/jpeg' && file.type !== 'image/git' && file.type !== 'image/png') {
       return alert('이미지 파일이 아닙니다.')
-    }
-    
+    } 
     this.indexService.uploadImg(file)
       .then(json => {
-        let elem = document.createElement('img')
-        elem.setAttribute('src', 'api/public/uploads/' + json.uploadFileName)
-        elem.setAttribute('alt', json.originalFileName)
-        this.content.appendChild(elem)
+        let elem = this.renderer.createElement(this.content, 'img')
+        this.renderer.setElementAttribute(elem, 'src', 'api/public/uploads/' + json.uploadFileName)
+        this.renderer.setElementAttribute(elem, 'alt', json.originalFileName)
       })
   }
 }

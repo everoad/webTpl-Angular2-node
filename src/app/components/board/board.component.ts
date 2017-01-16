@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core'
+import { Component, OnInit, ViewEncapsulation, Renderer } from '@angular/core'
+
 import { ActivatedRoute, Params, Router } from '@angular/router'
 import { BoardService } from '../../services/board.service'
 import { Board } from '../../dtos/board'
@@ -19,15 +20,27 @@ export class BoardComponent implements OnInit {
   indexArr: number[]
   index: number
 
-  skey: string
-  stype: string
- 
   previous: number
   next: number
+  options: [
+    {
+      value: 'title',
+      name: 'Title'
+    },
+    {
+      value: 'content',
+      name: 'Content'
+    },
+    {
+      value: 'user_nick',
+      name: 'Author'
+    }
+  ]
 
   menu_fir_seq: string
   menu_sec_seq: string
-
+  skeyElem 
+  stypeElem
 
   /**
    * Create a BoardComponent.
@@ -38,15 +51,17 @@ export class BoardComponent implements OnInit {
   constructor(
     private boardService: BoardService,
     private route: ActivatedRoute,
+    private renderer: Renderer,
     private router: Router
   ) { 
     this.boards = []
-    this.skey = ''
-    this.stype = ''
   }
 
 
   ngOnInit(): void {
+    this.skeyElem = this.renderer.selectRootElement('#skey')
+    this.stypeElem = document.getElementById('stype')
+
     this.route.queryParams.subscribe(p => {
       this.index = p['index']
       this.pagination(this.index)
@@ -59,6 +74,27 @@ export class BoardComponent implements OnInit {
    * @param  {number} index
    * @returns void
    */
+  navigating(index: number) {
+    var queryParams = {
+      index: index
+    }
+    let skeyVal = this.skeyElem.value
+    let stypeVal = this.stypeElem.value
+
+    if (skeyVal && stypeVal) {
+      queryParams['skey'] = skeyVal
+      queryParams['stype'] = stypeVal
+    }
+    console.log(queryParams)
+    this.router.navigate([ 'board',
+                           this.menu_fir_seq,
+                           this.menu_sec_seq ], 
+                           { queryParams: queryParams })
+  }
+
+
+
+
   pagination(index: number): void {
     
     this.route.params.switchMap((p: Params) => {
@@ -66,8 +102,7 @@ export class BoardComponent implements OnInit {
       this.menu_sec_seq = p['menu_sec_seq']
       return this.boardService.getAll({ menu_fir_seq: this.menu_fir_seq,
                                          menu_sec_seq: this.menu_sec_seq },
-                                       { index: index,
-                                         skey: this.skey })
+                                       { index: index })
 
     }).subscribe(json => {
       this.boards = json['boards']
@@ -89,5 +124,7 @@ export class BoardComponent implements OnInit {
       }
     })
   }
+
+
 
 }
