@@ -1,71 +1,102 @@
 
 'use strict'
+var AuthError = require('../exception/auth.error')
 
-const DENY = '잘못된 접근입니다.'
-const ROLE_ADMIN = 'ROLE_ADMIN'
-const ROLE_USER = 'ROLE_USER'
-
-
-
-/**
- * 
- */
-exports.isAnonymous = (req, res, next) => {
-  if (!req.user) {
-    return next()
-  }
-  res.send({ result: DENY })
-}
-
+var logger = require('../log/logger')
+const ACCESS_DENY = 'ACCESS_DENY'
 
 
 /**
- * 로그인 유무 체크.
+ * @param {string} session
+ * @param {string} idColumn
+ * @param {string} roleColumn
  */
-exports.isAuthenticated = (req, res, next) => {
-  if (req.user) {
-     return next()
-  }
-  res.send({ result: DENY })
-}
+module.exports = function (session, idColumn, roleColumn) {
 
-
-/**
- * 메소드 실행 전 유저 권한 체크.
- */
-exports.preAuthorize = (req, res, next) => {
-
-  if(req.user && (req.user.user_email === req.body.user_email)) {
-    return next()
-  }
-  res.send({ result: DENY })
-}
-
-
-
-
-/**
- * 메소드 실행 후 유저 권한 체크.
- */
-exports.postAuthorize = (req, res) => {
-  let result = req.result
-
-  if(!req.user && !(req.user.user_email === result.user_email)) {
-    return res.send({ result: DENY })
+  if (typeof session !== 'string') {
+    throw new TypeError('Session value is not String type.')
   }
 
-  res.send(result)
-}
-
-
-
-
-/**
- * 관리자 체크. 
- */
-exports.isAdmin = (req, res, next) => {
-  if (req.user && req.user.user_role === ROLE_ADMIN) {
-    return next()
+  if (typeof idColumn !== 'string') {
+    throw new TypeError('IdColumn is not String type.')
   }
-  res.send({ result: DENY })
+
+  if (typeof roleColumn !== 'string') {
+    throw new TypeError('RoleColumn is not String type.')
+  }
+
+
+  var module = {}
+  /**
+   * 
+   */
+  module.isAnonymous = (req, res, next) => {
+    logger.info('isAnonymous')
+    if (!req[session]) {
+      return next()
+    }
+    throw new AuthError(ACCESS_DENY)
+
+  }
+
+
+
+
+
+  /**
+   * 로그인 유무 체크.
+   */
+  module.isAuthenticated = (req, res, next) => {
+    logger.info('isAuthenticated')
+    if (req[session]) {
+      return next()
+    }
+    throw new AuthError(ACCESS_DENY)
+
+  }
+
+
+
+
+
+  /**
+   * 메소드 실행 전 유저 권한 체크.
+   */
+  module.preAuthorize = (req, res, next) => {
+
+    logger.info('preAuthorize')
+    if(req[session] && (req[session][idColumn] === req.body[idColumn])) {
+      return next()
+    }
+    throw new AuthError(ACCESS_DENY)
+
+  }
+
+
+
+
+
+
+  /**
+   * Check role. 
+   * @param {object} roles
+   * @return {function}
+   */
+  module.hasRole = function (roles) {
+    if (roles.constructor !== Array) {
+      throw new TypeError('Role is not Array type.')
+    }
+
+    return (req, res, next) => {
+      logger.info('hasRole')
+      for (let role of roles) {
+        if (req[session][roleColumn] === role) {
+          return next()
+        }
+      }
+      throw new AuthError(ACCESS_DENY)
+    }
+  }
+
+  return module
 }

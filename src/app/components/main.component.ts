@@ -29,7 +29,13 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
     this.indexService.getMainList()
-      .then(json => { this.boards = json })
+      .then(json => { 
+        if (json.result === 'success') {
+          this.boards = json.boards
+        } else {
+          alert('서버상 문제로 실패')
+        }
+      })
     
   }
 

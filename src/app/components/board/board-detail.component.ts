@@ -58,7 +58,13 @@ export class BoardDetailComponent implements OnInit {
       this.board.menu_sec_seq = p['menu_sec_seq']
       return this.boardService.getOne(this.board)
 
-    }).subscribe(board => this.board = board)
+    }).subscribe(json => {
+      if (json.result === 'success') {
+        this.board = json.board
+      } else {
+        alert('서버상 문제로 실패')
+      }
+    })
   }
 
 

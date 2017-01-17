@@ -4,7 +4,7 @@
       <form class="sky-form">
         <input name="title" [(ngModel)]="board.title" placeholder="Title.." class="form-control">
         <input type="file" (change)="upload($event)" name="file" value="" class="form-control">
-        <div contentEditable="true" id="content" [innerHTML]="board.content | safeHtml"></div>
+        <div contentEditable="true" id="content" [innerHTML]="board.content"></div>
         <div align="right">
           <button id="back" class="btn-u btn-u-default btn-u-sm" id="back">취소</button>
           <input type='button' (click)="submit($event)" value="완료" class="btn-u btn-u-sm">

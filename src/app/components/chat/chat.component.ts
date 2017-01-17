@@ -67,7 +67,7 @@ export class ChatComponent implements OnInit, OnChanges {
   ngOnChanges(change: SimpleChanges) {
     if (typeof change['visible'].currentValue !== 'boolean'
         && typeof change['visible'].previousValue !== 'boolean') {
-        return
+      return
     }
     if (change['visible'].currentValue !== change['visible'].previousValue) {
       setTimeout(() => {

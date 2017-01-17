@@ -41,7 +41,13 @@ export class BoardReplyComponent implements OnInit {
     this.replyAll = []
     this.replyOne = new Reply()
     this.boardService.getReplyAll(this.boardSeq)
-      .then(json => this.replyAll = json)
+      .then(json => {
+        if (json.result === 'success') {
+          this.replyAll = json.replyAll
+        } else {
+          alert('서버상 문제로 실패')
+        }
+      })
   }
 
 

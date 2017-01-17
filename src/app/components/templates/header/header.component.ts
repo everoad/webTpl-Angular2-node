@@ -31,7 +31,13 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.indexService.getMenu()
-      .then(menu => this.menu  = menu)
+      .then(json => {
+        if(json.result === 'success') {
+          this.menu = json.menuFir
+        } else {
+          alert('서버상 문제')
+        }
+      })
   }
 
 

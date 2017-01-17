@@ -23,7 +23,7 @@ export class BoardService {
 
 
 
-  getOne(board: Board): Promise<Board> {
+  getOne(board: Board) {
     return this.http.get(`/api/board/${board.menu_fir_seq}/${board.menu_sec_seq}/${board.board_seq}`).toPromise()
       .then((res: Response) => res.json())
   }
@@ -62,7 +62,7 @@ export class BoardService {
 
 
 
-  getReplyAll(board_seq: string): Promise<Reply[]> {
+  getReplyAll(board_seq: string) {
     return this.http.get(`/api/board/reply?board_seq=${board_seq}`).toPromise()
       .then((res: Response) => res.json())
   }

@@ -3,8 +3,8 @@ var router = express.Router()
 var boardModel = require('../model/boardModel')
 var HTML = require('html-parse-stringify')
 
-
-var security = require('../auth/my-security')
+var logger = require('../log/logger')
+var security = require('../auth/my-security')('user', 'user_email', 'user_role')
 
 
 router.route('/:menu_fir_seq/:menu_sec_seq')
@@ -27,7 +27,10 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
   var sec = req.params.menu_sec_seq
 
   boardModel.getTotalDataNum([fir, sec, stype, skey], (err, row) => {
-    if (err) { throw err }
+    if (err) { 
+      logger.error(`${err.name} : ${err.message}`)
+      return res.send({ result: 'fail' })
+    }
     req.total = row.total
     next()
   })
@@ -51,7 +54,10 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
   var start = (index - 1) * dataPerPage
 
   boardModel.getAll([fir, sec, start, dataPerPage, stype, skey], (err, rows) => {
-    if (err) { throw err }
+    if (err) { 
+      logger.error(`${err.name} : ${err.message}`)
+      return res.send({ result: 'fail' })
+    }
 
     res.send({ boards: rows, total: total, dataPerPage: dataPerPage, totalPage: totalPage })
   })
@@ -84,8 +90,15 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
     }
   }
   boardModel.add([title, content, frontImg, userEmail, firSeq, secSeq], (err, insertId) => {
-    if (err) { throw err }
-    res.send({ board_seq: insertId })
+
+    if (err) { 
+      logger.error(`${err.name} : ${err.message}`)
+      return res.send({ result: 'fail' })
+    }
+
+    res.send({ result: 'success',
+               board_seq: insertId })
+    
   })
 })
 
@@ -111,7 +124,10 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
     }
   }
   boardModel.edit([title, content, frontImg, boardSeq], (err, affectedRows) => {
-    if (err) { throw err }
+    if (err) { 
+      logger.error(`${err.name} : ${err.message}`)
+      return res.send({ result: 'fail' })
+    }
     res.send({ result: 'success' })
   })
 })
@@ -127,7 +143,12 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
   var boardSeq = req.body.board_seq
 
   boardModel.delete([boardSeq], (err, affectedRows) => {
-    if (err) { throw err }
+   
+    if (err) { 
+      logger.error(`${err.name} : ${err.message}`)
+      return res.send({ result: 'fail' })
+    }
+
     if (affectedRows === 1) {
       res.send({ result: 'success' })
     } else {
@@ -148,7 +169,10 @@ router.get('/:menu_fir_seq/:menu_sec_seq/:board_seq', (req, res, next) => {
   var seq = req.params.board_seq
 
   boardModel.hitUp([seq], (err, affectedRows) => {
-    if (err) { throw err }
+    if (err) { 
+      logger.error(`${err.name} : ${err.message}`)
+      return res.send({ result: 'fail' })
+    }
     if (affectedRows === 1) {
       next()
     }
@@ -161,8 +185,12 @@ router.get('/:menu_fir_seq/:menu_sec_seq/:board_seq', (req, res) => {
   var seq = req.params.board_seq
 
   boardModel.getOne([seq], (err, row) => {
-    if (err) { throw err }
-    res.send(row)
+    if (err) { 
+      logger.error(`${err.name} : ${err.message}`)
+      return res.send({ result: 'fail' })
+    }
+    res.send({ result: 'success',
+              board : row })
   })
   
 })
@@ -179,8 +207,13 @@ router.route('/reply')
   var board_seq = req.query.board_seq
 
   boardModel.getReplyAll([board_seq], (err, rows) => {
-    if (err) { throw err }
-    res.send(rows)
+    if (err) { 
+      logger.error(`${err.name} : ${err.message}`)
+      return res.send({ result: 'fail' })
+    }
+    
+    res.send({ result: 'success',
+               replyAll : rows })
   })
 })
 
@@ -190,7 +223,10 @@ router.route('/reply')
 .post(security.isAuthenticated, (req, res, next) => {
   var board_seq = req.body.board_seq
   boardModel.replyCntUp([board_seq] ,(err, affectedRows) => {
-    if (err) { throw err }
+    if (err) { 
+      logger.error(`${err.name} : ${err.message}`)
+      return res.send({ result: 'fail' })
+    }
     if (affectedRows === 1) {
       next()
     }
@@ -202,7 +238,10 @@ router.route('/reply')
   var user_email = req.user.user_email
   var board_seq = req.body.board_seq
   boardModel.addReply([content, user_email, board_seq], (err, insertId) => {
-    if (err) { throw err } 
+    if (err) { 
+      logger.error(`${err.name} : ${err.message}`)
+      return res.send({ result: 'fail' })
+    }
     if (insertId) {
       res.redirect('/api/board/reply?board_seq=' + board_seq)
     }
@@ -217,7 +256,10 @@ router.route('/reply')
 .delete(security.preAuthorize, (req, res, next) => {
   var board_seq = req.body.board_seq
   boardModel.replyCntDown([board_seq], (err, affectedRows) => {
-    if (err) { throw err }
+    if (err) { 
+      logger.error(`${err.name} : ${err.message}`)
+      return res.send({ result: 'fail' })
+    }
     if (affectedRows === 1) {
       next()
     }
@@ -227,7 +269,10 @@ router.route('/reply')
 .delete((req, res) => {
   var reply_seq = req.body.reply_seq
   boardModel.deleteReply([reply_seq], (err, affectedRows) => {
-    if (err) { throw err }
+    if (err) { 
+      logger.error(`${err.name} : ${err.message}`)
+      return res.send({ result: 'fail' })
+    }
     if (affectedRows === 1) {
       res.send({ result: 'success' })
     }

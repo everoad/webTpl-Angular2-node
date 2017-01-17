@@ -10,6 +10,9 @@ var socketio = require('socket.io')
 // Custom.
 var index = require('./routes/index')
 var localPassport = require('./auth/local.passport')
+var logger = require('./log/logger')
+
+var AuthError = require('./exception/auth.error')
 
 
 app.set('view engine', 'jade')
@@ -30,10 +33,20 @@ app.use('/api', index)
  * ErrorHandler
  */
 app.use(function(err, req, res, next) {
-  if (err) {
-    console.error(`${err.name} : ${err.message}`)
+
+  switch(err.constructor) {
+
+    case AuthError:
+      logger.info(`${err.name} : ${err.message}`)
+      break
+
+    default:
+      logger.error(`${err.name} : ${err.message}`)
+      break
+
   }
   //처리..
+  res.send({ result : 'fail' })
 })
 
 

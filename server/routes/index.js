@@ -53,7 +53,10 @@ router.get('/', (req, res) => {
 router.get('/menu', (req, res, next) => {
   
   indexModel.getMenuFir((err, menuFir) => {
-    if (err) { throw err }
+    if (err) { 
+      logger.error(`${err.name} : ${err.message}`)
+      return res.send({ result: 'fail' })
+    }
     req.menuFir = menuFir
     next()
   })
@@ -63,10 +66,14 @@ router.get('/menu', (req, res) => {
   var menuFir = req.menuFir
   menuFir.map((fir, index) => {
     indexModel.getMenuSec([fir.menu_fir_seq], (err, menuSec) => {
-      if (err) { throw err }
+      if (err) { 
+        logger.error(`${err.name} : ${err.message}`)
+        return res.send({ result: 'fail' })
+      }
       fir['menu_sec'] = menuSec
       if (index === (menuFir.length - 1)) {
-        res.send(menuFir)
+        res.send({ result: 'success',
+                   menuFir: menuFir})
       }
     })
   })
@@ -83,7 +90,10 @@ router.get('/menu', (req, res) => {
 router.get('/main', (req, res, next) => {
  
   indexModel.getMenuFir((err, menuFir) => {
-    if (err) { throw err }
+    if (err) { 
+      logger.error(`${err.name} : ${err.message}`)
+      return res.send({ result: 'fail' })
+    }
     req.menuFir = menuFir
     next()
   })
@@ -93,10 +103,14 @@ router.get('/main', (req, res) => {
   var menuFir = req.menuFir
   menuFir.map((fir, index) => {
     indexModel.getMainAll([fir.menu_fir_seq], (err, boards) => {
-      if (err) { throw err }
+      if (err) { 
+        logger.error(`${err.name} : ${err.message}`)
+        return res.send({ result: 'fail' })
+      }
       fir['menu_sec'] = boards
       if ((index + 1) === menuFir.length) {
-        res.send(menuFir)
+        res.send({ result: 'success',
+                   boards: menuFir })
       }
     })
   })

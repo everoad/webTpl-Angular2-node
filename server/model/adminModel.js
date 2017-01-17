@@ -1,7 +1,7 @@
 var pool = require('../db/connect')
 
 
-pool.getConnection().then((conn => {
+pool.getConnection().then((connection) => {
 
   exports.getMenu = (callback) => {
 
@@ -27,4 +27,4 @@ pool.getConnection().then((conn => {
   }
 
 
-})).catch(err => { throw err })
+}).catch(err => { throw err })

@@ -57,10 +57,14 @@ export class BoardAddComponent implements OnInit {
       this.board.menu_sec_seq = p['menu_sec_seq']
       return this.boardService.add(this.board)
      }).subscribe(json => {
-       this.router.navigate([ 'board',
-                              this.board.menu_fir_seq,
-                              this.board.menu_sec_seq,
-                              json.board_seq ])
+       if (json.result === 'success') {
+         this.router.navigate([ 'board',
+                                this.board.menu_fir_seq,
+                                this.board.menu_sec_seq,
+                                json.board_seq ])
+       } else {
+         alert('서버상의 문제로 실패')
+       }
      })
   }
 
