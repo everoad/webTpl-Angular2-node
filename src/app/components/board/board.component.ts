@@ -33,6 +33,7 @@ export class BoardComponent implements OnInit {
    * Create a BoardComponent.
    * @param  {BoardService} privateboardService
    * @param  {ActivatedRoute} privateroute
+   * @param {Renderer} renderer
    * @param  {Router} privaterouter
    */
   constructor(
@@ -81,7 +82,12 @@ export class BoardComponent implements OnInit {
 
 
 
-
+  /**
+   * 
+   * @param {number} index
+   * @param {string} stype
+   * @param {string} stkey
+   */
   pagination(index: number, stype: string, skey: string): void {
     
     this.route.params.switchMap((p: Params) => {

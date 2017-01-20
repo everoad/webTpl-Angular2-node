@@ -1,3 +1,15 @@
 {"level":"error","message":"Error : ER_BAD_NULL_ERROR: Column 'TITLE' cannot be null","timestamp":"2017-01-17T06:42:00.014Z"}
 {"level":"error","message":"Error : ER_BAD_NULL_ERROR: Column 'TITLE' cannot be null","timestamp":"2017-01-17T06:43:24.650Z"}
 {"level":"error","message":"ReferenceError : success is not defined","timestamp":"2017-01-17T06:47:37.163Z"}
+{"level":"error","message":"Error : ER_BAD_FIELD_ERROR: Unknown column 'user.user_emai' in 'on clause'","timestamp":"2017-01-17T14:12:17.590Z"}
+{"level":"error","message":"Error : ER_BAD_FIELD_ERROR: Unknown column 'user.user_emai' in 'on clause'","timestamp":"2017-01-17T14:12:24.873Z"}
+{"level":"error","message":"Error : ER_BAD_FIELD_ERROR: Unknown column 'user.user_emai' in 'on clause'","timestamp":"2017-01-17T14:12:26.106Z"}
+{"level":"error","message":"Error : ER_BAD_FIELD_ERROR: Unknown column 'user.user_emai' in 'on clause'","timestamp":"2017-01-17T14:12:56.598Z"}
+{"level":"error","message":"Error : ER_BAD_FIELD_ERROR: Unknown column 'user.user_emai' in 'on clause'","timestamp":"2017-01-17T14:13:01.337Z"}
+{"level":"error","message":"Error : ER_BAD_FIELD_ERROR: Unknown column 'user.user_emai' in 'on clause'","timestamp":"2017-01-17T14:13:05.326Z"}
+{"level":"error","message":"TypeError : Cannot read property 'user_role' of undefined","timestamp":"2017-01-20T06:38:16.987Z"}
+{"level":"error","message":"TypeError : Cannot read property 'user_role' of undefined","timestamp":"2017-01-20T06:38:17.184Z"}
+{"level":"error","message":"TypeError : Cannot read property 'user_role' of undefined","timestamp":"2017-01-20T06:39:32.415Z"}
+{"level":"error","message":"TypeError : Cannot read property 'user_role' of undefined","timestamp":"2017-01-20T06:40:22.167Z"}
+{"level":"error","message":"TypeError : Cannot read property 'user_role' of undefined","timestamp":"2017-01-20T06:44:21.689Z"}
+{"level":"error","message":"TypeError : Cannot read property 'user_role' of undefined","timestamp":"2017-01-20T06:44:21.705Z"}

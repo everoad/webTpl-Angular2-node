@@ -8,7 +8,7 @@ pool.getConnection().then((connection) => {
    */
   exports.getMenuFir = (callback) => {
     var sql =
-      'SELECT menu_fir_seq, menu_fir_name, menu_fir_type ' +
+      'SELECT menu_fir_seq, menu_fir_name, menu_fir_type, menu_fir_index ' +
       'FROM menu_fir ' +
       'ORDER BY menu_fir_index'
 
@@ -26,7 +26,9 @@ pool.getConnection().then((connection) => {
   exports.getMenuSec = (params, callback) => {
     var sql =
       'SELECT menu_sec_seq, menu_sec_name, menu_fir_seq, menu_sec_index ' +
-      'FROM menu_sec WHERE menu_fir_seq = ?'
+      'FROM menu_sec ' +
+      'WHERE menu_fir_seq = ? ' +
+      'ORDER BY menu_sec_index'
 
     connection.query(sql, params)
       .then(rows => callback(null, rows))

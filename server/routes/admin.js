@@ -6,23 +6,14 @@ var security = require('../auth/my-security')('user', 'user_email', 'user_role')
 
 
 
-router.use(security.hasRole([ "ROLE_ADMIN" ]))
+//router.use(security.hasRole([ "ROLE_ADMIN" ]))
 
 
 router.route('/menu')
 
-.get((req, res) => {
-  adminModel.getMenu((err, rows) => {
-    if (err) { 
-      logger.error(`${err.name} : ${err.message}`)
-      return res.send({ result: 'fail' })
-    }
-    res.send(rows)
-  })
-})
-
 .put((req, res) => {
-
+  console.log(req.body)
+  res.send({ result: 'success' })
 })
 
 

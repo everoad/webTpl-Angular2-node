@@ -81,7 +81,7 @@ export class BoardAddComponent implements OnInit {
       return alert('이미지 파일이 아닙니다.')
     }
     this.indexService.uploadImg(file)
-      .then(json => {
+      .subscribe(json => {
         let elem = this.renderer.createElement(this.content, 'img')
         this.renderer.setElementAttribute(elem, 'src', 'api/public/uploads/' + json.uploadFileName)
         this.renderer.setElementAttribute(elem, 'alt', json.originalFileName)

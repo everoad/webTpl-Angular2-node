@@ -91,7 +91,7 @@ export class BoardDetailComponent implements OnInit {
     }
 
     this.boardService.delete(this.board)
-      .then(json => {
+      .subscribe(json => {
         if (json.result === 'success') {
           this.index = (this.index) ? this.index : 1
           this.router.navigate([ 'board', 

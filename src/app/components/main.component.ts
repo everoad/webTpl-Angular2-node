@@ -29,7 +29,7 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
     this.indexService.getMainList()
-      .then(json => { 
+      .subscribe(json => { 
         if (json.result === 'success') {
           this.boards = json.boards
         } else {

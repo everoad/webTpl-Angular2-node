@@ -41,7 +41,7 @@ export class BoardReplyComponent implements OnInit {
     this.replyAll = []
     this.replyOne = new Reply()
     this.boardService.getReplyAll(this.boardSeq)
-      .then(json => {
+      .subscribe(json => {
         if (json.result === 'success') {
           this.replyAll = json.replyAll
         } else {
@@ -57,7 +57,7 @@ export class BoardReplyComponent implements OnInit {
   add(): void {
     this.replyOne.board_seq = this.boardSeq
     this.boardService.addReply(this.replyOne)
-      .then(json => {
+      .subscribe(json => {
         this.replyAll = json
         this.renderer.selectRootElement('textarea').value = ''
       })
@@ -69,7 +69,7 @@ export class BoardReplyComponent implements OnInit {
 
   delete(one: Reply) {
     this.boardService.deleteReply(one)
-      .then(json => {
+      .subscribe(json => {
         if (json.result === 'success') {
           this.replyAll.splice(this.replyAll.indexOf(one), 1)
         }

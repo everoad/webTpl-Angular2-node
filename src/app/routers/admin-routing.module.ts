@@ -10,10 +10,10 @@ const routes: Routes = [
     path: 'admin/menu',
     component: AdminMenuComponent
   },
-  {
-    path: 'admin/home',
-    component: AdminHomeComponent
-  }
+  // {
+  //   path: 'admin/home',
+  //   component: AdminHomeComponent
+  // }
 ]
 
 

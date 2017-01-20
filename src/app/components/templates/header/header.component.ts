@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.indexService.getMenu()
-      .then(json => {
+      .subscribe(json => {
         if(json.result === 'success') {
           this.menu = json.menuFir
         } else {
@@ -45,7 +45,7 @@ export class HeaderComponent implements OnInit {
   logout() {
     this.localStorage.remove('user')
     this.userService.logout()
-      .then(json => {
+      .subscribe(json => {
         if(json.result === 'success') {
           this.router.navigate([''])
         }

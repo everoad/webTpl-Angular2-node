@@ -19,11 +19,9 @@ export class AuthGuard implements CanActivate {
   ) { }
 
 
-
-
-
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
    
+    //로그인 체크.
     if (!this.ls.get("user")) {
       this.ls.set('redirectUrl', state.url)
       this.location.back()
@@ -31,8 +29,10 @@ export class AuthGuard implements CanActivate {
       return false
     }
 
+
+    //글 수정 페이지 권한 체크.
     if (route.url[4] && route.url[4].path === 'edit'
-       && (<User> this.ls.get('user')).user_email !== this.ls.get('board_user_email') + '') {
+       && (<User> this.ls.get('user')).user_email !== <string> this.ls.get('board_user_email')) {
       this.ls.remove('board_user_email')
       this.location.back()
       return false

@@ -9,7 +9,11 @@ pool.getConnection().then((connection) => {
    */
   exports.getOne = (params, callback) => {
     var sql =
-      'SELECT user_email, user_pwd, user_nick FROM user WHERE user_email = ?'
+      'SELECT user_email, user_pwd, user_nick, user_role ' +
+      'FROM user ' +
+      'JOIN user_role ' +
+      'ON user.user_email = user_role.user_email '
+      'WHERE user_email = ?'
 
     connection.query(sql, params)
       .then(rows => callback(null, rows[0]))
@@ -32,5 +36,6 @@ pool.getConnection().then((connection) => {
     connection.query(sql, params)
       .then(result => callback(null, result.insertId))
       .catch((err) => callback(err, null))
+      
   }
 }).catch((err) => console.error('userModel : ' + err.stack))

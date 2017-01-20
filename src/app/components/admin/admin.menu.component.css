@@ -1,0 +1,19 @@
+.container {
+   
+}
+
+.first {
+    margin: 3px;
+    overflow: hidden;
+    padding: 3px;
+    border: 1px solid #ddd;
+    width: 60%;
+}
+
+.second {
+    margin: 3px;
+    padding: 3px;
+    border: 1px solid #ddd;
+    overflow: hidden;
+}
+

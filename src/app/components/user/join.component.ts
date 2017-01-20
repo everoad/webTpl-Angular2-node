@@ -39,7 +39,7 @@ export class JoinComponent {
 
   submit(event) {
     this.userService.join(this.user)
-      .then(json => {
+      .subscribe(json => {
         if(json.result === 'success') {
           this.ls.set('user', json.user)
           this.close()

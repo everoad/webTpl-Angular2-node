@@ -58,8 +58,8 @@ router.route('/:menu_fir_seq/:menu_sec_seq')
       logger.error(`${err.name} : ${err.message}`)
       return res.send({ result: 'fail' })
     }
-
-    res.send({ boards: rows, total: total, dataPerPage: dataPerPage, totalPage: totalPage })
+    res.send('haha')
+    //res.send({ boards: rows, total: total, dataPerPage: dataPerPage, totalPage: totalPage })
   })
 })
 

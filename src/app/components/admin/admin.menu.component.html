@@ -1,0 +1,15 @@
+  <div>
+    <div class='container' [dragula]='"first-bag"' [dragulaModel]='menuFir'>
+      <div *ngFor="let fir of menuFir; let index = index" class="first">
+        {{fir.menu_fir_name}}
+        <div  class='container' [dragula]='second-bag' [dragulaModel]='fir.menu_sec'>
+          <div *ngFor="let sec of fir.menu_sec" class="second">
+            {{sec.menu_sec_name}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button (click)="submit($event)">submit</button>
+  

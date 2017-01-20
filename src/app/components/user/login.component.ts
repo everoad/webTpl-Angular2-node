@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
   
   submit(event) {
     this.userService.login(this.user)
-      .then(json => {
+      .subscribe(json => {
   
         if (json.result === 'success') {
 
